@@ -53,12 +53,18 @@
                                 @foreach($news as $blog)
                                     <li>
                                         <div class="media">
-                                            <div style="background-image: url({{$blog->image->getUrl()}}); background-size: cover; background-position: center;" class="media-left">
-                                                <img style="opacity: 0;" src="{{asset('front/assets/img/widget/1.png')}}" alt="blog">
+                                            <div
+                                                style="background-image: url({{$blog->image->getUrl()}}); background-size: cover; background-position: center;"
+                                                class="media-left">
+                                                <img style="opacity: 0;"
+                                                     src="{{asset('front/assets/img/widget/1.png')}}" alt="blog">
                                             </div>
                                             <div class="media-body align-self-center">
-                                                <h5 class="title"><a href="single-blog.html">{{$blog['title_'.$locale]}}</a></h5>
-                                                <div class="post-info"><i class="fa fa-calendar"></i><span>{{$blog->created_at}}</span></div>
+                                                <h5 class="title"><a
+                                                        href="single-blog.html">{{$blog['title_'.$locale]}}</a></h5>
+                                                <div class="post-info"><i
+                                                        class="fa fa-calendar"></i><span>{{$blog->created_at}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </li>
@@ -68,23 +74,17 @@
                         <div class="widget widget_catagory">
                             <h4 class="widget-title">{{__('Countries')}}</h4>
                             <ul class="catagory-items">
-                                <li><a href="#">Tempor lorem interdum <i class="fa fa-caret-right"></i></a></li>
-                                <li><a href="#">Auctor mattis lacus  <i class="fa fa-caret-right"></i></a></li>
-                                <li><a href="#">Dolor proin  <i class="fa fa-caret-right"></i></a></li>
-                                <li><a href="#">Pharetra amet <i class="fa fa-caret-right"></i></a></li>
+                                @foreach($countries as $country)
+                                    <li><a href="#">{{$country['name_'.$locale]}} <i class="fa fa-caret-right"></i></a></li>
+                                @endforeach
                             </ul>
                         </div>
                         <div class="widget widget_tags mb-0">
                             <h4 class="widget-title">{{__('Directions')}}</h4>
                             <div class="tagcloud">
-                                <a href="#">Art</a>
-                                <a href="#">Creative</a>
-                                <a href="#">Article</a>
-                                <a href="#">Designer</a>
-                                <a href="#">Portfolio</a>
-                                <a href="#">Project</a>
-                                <a href="#">Personal</a>
-                                <a href="#">Landing</a>
+                                @foreach($programs as $program)
+                                    <a href="#">{{$program['name_'.$locale]}}}</a>
+                                @endforeach
                             </div>
                         </div>
 

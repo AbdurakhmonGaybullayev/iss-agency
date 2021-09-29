@@ -93,12 +93,8 @@
                     <li class="menu-item-has-children current-menu-item">
                         <a href="{{route('home',$locale)}}">{{__('Home')}}</a>
                     </li>
-                    <li class="menu-item-has-children">
-                        <a href="#">{{__('Programs')}}</a>
-                        <ul class="sub-menu">
-                            <li><a href="course.html">Course</a></li>
-                            <li><a href="course-details.html">Course Single</a></li>
-                        </ul>
+                    <li>
+                        <a href="{{route('programs',$locale)}}">{{__('Programs')}}</a>
                     </li>
                     <li>
                         <a href="{{route('news',$locale)}}">{{__('News')}}</a>
@@ -199,7 +195,7 @@
                     <div class="widget_nav_menu">
                         <ul>
                             <li><a href="{{route('home',$locale)}}">{{__('Home')}}</a></li>
-                            <li><a href="about.html">{{__('Programs')}}</a></li>
+                            <li><a href="{{route('programs',$locale)}}">{{__('Programs')}}</a></li>
                             <li><a href="{{route('news',$locale)}}">{{__('News')}}</a></li>
                             <li><a href="{{route('gallery',$locale)}}">{{__('Gallery')}}</a></li>
                             <li><a href="about.html">{{__('About_us')}}</a></li>
