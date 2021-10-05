@@ -6,10 +6,11 @@
         <div class="container">
             <div class="breadcrumb-inner">
                 <div class="section-title mb-0 text-center">
-                    <h2 class="page-title">Courses Single</h2>
+                    <h2 class="page-title">{{$university['name_'.$locale]}}</h2>
                     <ul class="page-list">
-                        <li><a href="index.html">Home</a></li>
-                        <li>Courses Single</li>
+                        <li><a href="{{route('home',$locale)}}">{{__('Home')}}</a></li>
+                        <li><a href="{{route('programs',$locale)}}">{{__('Programs')}}</a></li>
+                        <li>{{$university['name_'.$locale]}}</li>
                     </ul>
                 </div>
             </div>
@@ -25,13 +26,13 @@
                     <div class="course-course-detaila-inner">
                         <div class="details-inner">
                             <div class="emt-user">
-                                <span class="u-thumb"><img src="{{asset('front/assets/img/author/1.png')}}" alt="img"></span>
-                                <span class="align-self-center">Nancy Reyes</span>
+                                <span style="background-image: url({{$university->country->image->getUrl()}}); background-size: cover; background-position: left;" class="u-thumb"><img style="opacity: 0;" src="{{asset('front/assets/img/author/1.png')}}" alt="img"></span>
+                                <span class="align-self-center">{{$university->country['name_'.$locale]}}</span>
                             </div>
-                            <h3 class="title"><a href="course-details.html">Fox Nymphs Grab Quick-jived Waltz. Brick Quiz Whangs</a></h3>
+                            <h3 class="title"><a href="course-details.html">{{$university['name_'.$locale]}}</a></h3>
                         </div>
                         <div class="thumb">
-                            <img src="{{asset('front/assets/img/course/9.png')}}" alt="img">
+                            <img src="{{$university->image->getUrl()}}" alt="img">
                         </div>
                         <div class="course-details-nav-tab text-center">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -52,35 +53,7 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
                                 <div class="course-details-content">
-                                    <p>The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox nymphs grab quick-jived waltz. Brick quiz whangs jumpy veldt fox. Bright vixens jump; dozy fowl quack. Quick wafting zephyrs vex bold Jim. Quick zephyrs blow, vexing daft Jim. Sex-charged fop blew my junk TV quiz. How quickly daft jumping zebras vex. Two driven jocks help fax my big quiz. Quick, Baz, get my woven flax jodhpurs! "Now fax quiz Jack!" my brave ghost pled. Five quacking zephyrs jolt my wax bed. Flummoxed by job, kvetching W. zaps Iraq. Cozy sphinx waves quart jug of bad milk. A very bad quack might jinx zippy fowls. Few quips galvanized the mock jury box. Quick brown dogs jump over the lazy fox. The jay, pig, fox, zebra, and my wolves quack! Blowzy red vixens fight for a quick jump.</p>
-                                    <div class="row pt-4">
-                                        <div class="col-sm-6">
-                                            <ul class="single-list-wrap">
-                                                <li class="single-list-inner style-check-box">
-                                                    <i class="fa fa-check"></i> Metus interdum metus
-                                                </li>
-                                                <li class="single-list-inner style-check-box">
-                                                    <i class="fa fa-check"></i> Ligula cur maecenas
-                                                </li>
-                                                <li class="single-list-inner style-check-box">
-                                                    <i class="fa fa-check"></i> Fringilla nulla
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-6 mt-3 mt-sm-0">
-                                            <ul class="single-list-wrap">
-                                                <li class="single-list-inner style-check-box">
-                                                    <i class="fa fa-check"></i> Metus interdum metus
-                                                </li>
-                                                <li class="single-list-inner style-check-box">
-                                                    <i class="fa fa-check"></i> Ligula cur maecenas
-                                                </li>
-                                                <li class="single-list-inner style-check-box">
-                                                    <i class="fa fa-check"></i> Fringilla nulla
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    @php echo $university['article_description_'.$locale]; @endphp
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">

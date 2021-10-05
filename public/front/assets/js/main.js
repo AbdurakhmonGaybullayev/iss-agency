@@ -3,13 +3,15 @@
 
     $(document).ready(function () {
 
+
+
         /**-----------------------------
          *  Navbar fix
          * ---------------------------*/
         $(document).on('click', '.navbar-area .navbar-nav li.menu-item-has-children>a', function (e) {
             e.preventDefault();
         })
-       
+
         /*-------------------------------------
             menu
         -------------------------------------*/
@@ -17,7 +19,7 @@
             $(this).toggleClass('open');
             $('.navbar-area .navbar-collapse').toggleClass('sopen');
         });
-    
+
         // mobile menu
         if ($(window).width() < 992) {
             $(".in-mobile").clone().appendTo(".sidebar-inner");
@@ -35,7 +37,7 @@
 
         var menutoggle = $('.menu-toggle');
         var mainmenu = $('.navbar-nav');
-        
+
         menutoggle.on('click', function() {
             if (menutoggle.hasClass('is-active')) {
                 mainmenu.removeClass('menu-open');
@@ -52,7 +54,7 @@
         }
 
         /* --------------------------------------------------
-            isotop filter 
+            isotop filter
         ---------------------------------------------------- */
         var $Container = $('.isotop-filter-area');
         if ($Container.length > 0) {
@@ -274,7 +276,7 @@
         $('.counting').each(function() {
             var $this = $(this),
             countTo = $this.attr('data-count');
-          
+
             $({ countNum: $this.text()}).animate({
                 countNum: countTo
             },
@@ -288,7 +290,7 @@
                 complete: function() {
                     $this.text(this.countNum);
                 }
-            });  
+            });
         });
 
 
@@ -354,3 +356,4 @@
 
 
 })(jQuery);
+
