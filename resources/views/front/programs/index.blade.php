@@ -1,6 +1,8 @@
 @extends('layouts.front.master-2')
 
 @section('main')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
+
     <!-- breadcrumb start -->
     <div class="breadcrumb-area bg-overlay" style="background-image:url('{{asset('front/assets/img/bg/3.png')}}')">
         <div class="container">
@@ -24,36 +26,47 @@
                 <div class="col-lg-8 order-lg-12">
                     <div class="row">
                         @foreach($universities as $university)
-                        <div class="col-md-6">
-                            <div class="single-course-inner">
-                                <div style="background-image: url({{$university->image->getUrl()}}); background-size: cover; background-position: center;" class="thumb">
-                                    <a href="{{route('program-details',['lang'=>$locale,'id'=>$university->id])}}"><img style="opacity: 0;" src="{{asset('front/assets/img/course/2.png')}}" alt="img"></a>
-                                </div>
-                                <div class="details">
-                                    <div class="details-inner">
-                                        <div class="emt-user">
-                                            <span class="u-thumb" style="background-image: url({{$university->country->image->getUrl()}}); background-size: cover; background-position: left;"><img style="opacity: 0;" src="{{asset('front/assets/img/author/2.png')}}" alt="img"></span>
-                                            <span class="align-self-center">{{$university->country['name_'.$locale]}}</span>
-                                        </div>
-                                        <h6><a href="{{route('program-details',['lang'=>$locale,'id'=>$university->id])}}">{{$university['name_'.$locale]}}</a></h6>
+                            <div class="col-md-6">
+                                <div class="single-course-inner">
+                                    <div
+                                        style="background-image: url({{$university->image->getUrl()}}); background-size: cover; background-position: center;"
+                                        class="thumb">
+                                        <a href="{{route('program-details',['lang'=>$locale,'id'=>$university->id])}}"><img
+                                                style="opacity: 0;" src="{{asset('front/assets/img/course/2.png')}}"
+                                                alt="img"></a>
                                     </div>
-                                    <div class="emt-course-meta">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="rating">
-                                                    IELTS:<span>{{$university->ielts}}</span>
-                                                </div>
+                                    <div class="details">
+                                        <div class="details-inner">
+                                            <div class="emt-user">
+                                                <span class="u-thumb"
+                                                      style="background-image: url({{$university->country->image->getUrl()}}); background-size: cover; background-position: left;"><img
+                                                        style="opacity: 0;"
+                                                        src="{{asset('front/assets/img/author/2.png')}}"
+                                                        alt="img"></span>
+                                                <span
+                                                    class="align-self-center">{{$university->country['name_'.$locale]}}</span>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="price text-right">
-                                                    Price: <span>${{$university->price}}</span>
+                                            <h6>
+                                                <a href="{{route('program-details',['lang'=>$locale,'id'=>$university->id])}}">{{$university['name_'.$locale]}}</a>
+                                            </h6>
+                                        </div>
+                                        <div class="emt-course-meta">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="rating">
+                                                        IELTS:<span>{{$university->ielts}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="price text-right">
+                                                        Price: <span>${{$university->price}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                     <nav class="td-page-navigation">
@@ -73,71 +86,90 @@
                             <h4 class="widget-title">Search</h4>
                             <form class="search-form single-input-inner">
                                 <input type="text" placeholder="Search here">
-                                <button class="btn btn-base w-100 mt-3" type="submit"><i class="fa fa-search"></i> SEARCH</button>
+                                <button class="btn btn-base w-100 mt-3" type="submit"><i class="fa fa-search"></i>
+                                    SEARCH
+                                </button>
                             </form>
                         </div>
-                        <div class="widget widget_catagory">
-                            <h4 class="widget-title">Catagory</h4>
-                            <ul class="catagory-items">
-                                <li><a href="#">Tempor lorem interdum <i class="fa fa-caret-right"></i></a></li>
-                                <li><a href="#">Auctor mattis lacus  <i class="fa fa-caret-right"></i></a></li>
-                                <li><a href="#">Dolor proin  <i class="fa fa-caret-right"></i></a></li>
-                                <li><a href="#">Pharetra amet <i class="fa fa-caret-right"></i></a></li>
-                            </ul>
+                        <div class="widget widget_search_course">
+                            <h4 class="widget-title">{{__('Filter')}}</h4>
+                            <form class="search-form single-input-inner">
+                                <div class="single-input-inner style-bg-border">
+                                    <label for="">Choose country</label>
+                                    <select name="region">
+                                        <option value="volvo">Volvo</option>
+                                        <option value="saab">Saab</option>
+                                        <option value="mercedes">Mercedes</option>
+                                        <option value="audi">Audi</option>
+                                    </select>
+                                </div>
+                                <div class="single-input-inner style-bg-border">
+                                    <label for="">Choose program</label>
+                                    <select name="region">
+                                        <option value="volvo">Volvo</option>
+                                        <option value="saab">Saab</option>
+                                        <option value="mercedes">Mercedes</option>
+                                        <option value="audi">Audi</option>
+                                    </select>
+                                </div>
+                                <div class="single-input-inner style-bg-border">
+                                    <label for="">Choose direction</label>
+                                    <select name="region">
+                                        <option value="volvo">Volvo</option>
+                                        <option value="saab">Saab</option>
+                                        <option value="mercedes">Mercedes</option>
+                                        <option value="audi">Audi</option>
+                                    </select>
+                                </div>
+                                <h4 class="widget-title">{{__('Language Certificate')}}</h4>
+                                <div class="single-input-inner style-bg-border">
+                                    <label for="">Choose certificate</label>
+                                    <select name="region">
+                                        <option value="volvo">Volvo</option>
+                                        <option value="saab">Saab</option>
+                                        <option value="mercedes">Mercedes</option>
+                                        <option value="audi">Audi</option>
+                                    </select>
+                                </div>
+                                <div class="single-input-inner style-bg-border">
+                                    <div class="range">
+                                        <label for="">IELTS</label>
+
+                                        <input style="border: none!important; padding: 0;" type="range" min="4.5" step="0.5" max="9" value="4.5">
+                                        <div class="ticks">
+                                            <!-- You could generate the ticks based on your min, max & step values. -->
+                                            <span class="tick">All</span>
+                                            <span class="tick">5</span>
+                                            <span class="tick">5.5</span>
+                                            <span class="tick">6</span>
+                                            <span class="tick">6.5</span>
+                                            <span class="tick">7</span>
+                                            <span class="tick">7.5</span>
+                                            <span class="tick">8</span>
+                                            <span class="tick">8.5</span>
+                                            <span class="tick">9</span>
+                                        </div>
+                                        <input id="ex16b" type="text"/><br/>
+                                        <script>
+                                            // Without JQuery
+                                            var sliderB = new Slider("#ex16b", { min: 0, max: 10, value: [0, 10], focus: true });
+                                        </script>
+                                    </div>
+
+
+                                </div>
+                                <!-- most basic, used for Knobs demo -->
+                                <button class="btn btn-base w-100 mt-3" type="submit">{{__('Filter')}}</button>
+                            </form>
                         </div>
-                        <div class="widget widget_checkbox_list">
-                            <h4 class="widget-title">Price</h4>
-                            <label class="single-checkbox">
-                                <input type="checkbox" checked="checked">
-                                <span class="checkmark"></span>
-                                Free Courses
-                            </label>
-                            <label class="single-checkbox">
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                                Paid Courses
-                            </label>
-                            <label class="single-checkbox">
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                                Only Subscription
-                            </label>
-                        </div>
-                        <div class="widget widget_checkbox_list">
-                            <h4 class="widget-title">Level</h4>
-                            <label class="single-checkbox">
-                                <input type="checkbox" checked="checked">
-                                <span class="checkmark"></span>
-                                Beginner
-                            </label>
-                            <label class="single-checkbox">
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                                Intermediate
-                            </label>
-                            <label class="single-checkbox">
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                                Advanced
-                            </label>
-                        </div>
-                        <div class="widget widget_tags mb-0">
-                            <h4 class="widget-title">Tags</h4>
-                            <div class="tagcloud">
-                                <a href="#">Art</a>
-                                <a href="#">Creative</a>
-                                <a href="#">Article</a>
-                                <a href="#">Designer</a>
-                                <a href="#">Portfolio</a>
-                                <a href="#">Project</a>
-                                <a href="#">Personal</a>
-                                <a href="#">Landing</a>
-                            </div>
-                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- blog area end -->
+@endsection
+@section('js')
 @endsection
