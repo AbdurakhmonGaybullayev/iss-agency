@@ -65,6 +65,11 @@
                                                                                                  aria-hidden="true"></i></a>
                             <a href="{{isset($contact['facebook'])?$contact['facebook']:''}}"><i class="fa fa-facebook"
                                                                                                  aria-hidden="true"></i></a>
+
+                            @php
+                                $currentName = \Illuminate\Support\Facades\Route::currentRouteName();
+                            @endphp
+
                             <a class="current-lang" onclick="langSwitch()"><img style="width: 17px; margin-top: -1px" src="{{asset('front/assets/img/flags/flag'.$locale.'.svg')}}" alt=""><p style="display: inline; font-size: 12px">
                                 {{strtoupper($locale)}}</p></a>
                             @php
@@ -72,7 +77,7 @@
                             @endphp
                             @foreach($languages as $language)
                                 @if($language != $locale)
-                                    <a class="next-lang" href="/{{$language}}"><img style="width: 17px; margin-top: -1px" src="{{asset('front/assets/img/flags/flag'.$language.'.svg')}}" alt=""><p style="display: inline; font-size: 12px">
+                                    <a class="next-lang" href="{{route($currentName,$language)}}"><img style="width: 17px; margin-top: -1px" src="{{asset('front/assets/img/flags/flag'.$language.'.svg')}}" alt=""><p style="display: inline; font-size: 12px">
                                             {{strtoupper($language)}}</p></a>
                                 @endif
                             @endforeach
@@ -103,7 +108,7 @@
             </div>
             <div class="collapse navbar-collapse" id="edumint_main_menu">
                 <ul class="navbar-nav menu-open">
-                    <li class="menu-item-has-children current-menu-item">
+                    <li class="menu-item-has-children">
                         <a href="{{route('home',$locale)}}">{{__('Home')}}</a>
                     </li>
                     <li>
@@ -117,7 +122,7 @@
                     </li>
 
                     <li class="menu-item-has-children">
-                        <a href="#">{{__('About_us')}}</a>
+                        <a href="{{route('about',$locale)}}">{{__('About_us')}}</a>
                         <ul class="sub-menu">
                             <li><a href="{{route('faq',$locale)}}">{{__('FAQ')}}</a></li>
                             <li><a href="{{route('cooperation',$locale)}}">{{__('Cooperation')}}</a></li>
@@ -595,7 +600,7 @@
                             <li><a href="{{route('programs',$locale)}}">{{__('Programs')}}</a></li>
                             <li><a href="{{route('news',$locale)}}">{{__('News')}}</a></li>
                             <li><a href="{{route('gallery',$locale)}}">{{__('Gallery')}}</a></li>
-                            <li><a href="about.html">{{__('About_us')}}</a></li>
+                            <li><a href="{{route('about',$locale)}}">{{__('About_us')}}</a></li>
                         </ul>
                     </div>
                 </div>

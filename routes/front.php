@@ -100,5 +100,12 @@ Route::prefix('/{lang}')->group(function () {
         ]);
     })->name('program-details');
 
-
+    Route::get('/about',function (){
+        return view('front.about.index',[
+            'contact'=>\App\Models\Contact::first(),
+            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->take(5)->get(),
+            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+        ]);
+    })->name('about');
 });
