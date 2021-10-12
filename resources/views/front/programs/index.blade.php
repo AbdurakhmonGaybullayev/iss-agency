@@ -93,49 +93,36 @@
                         </div>
                         <div class="widget widget_search_course">
                             <h4 class="widget-title">{{__('Filter')}}</h4>
-                            <form class="search-form single-input-inner">
+                            <form class="search-form single-input-inner" method="get" action="{{route('programs',$locale)}}">
                                 <div class="single-input-inner style-bg-border">
                                     <label for="">Choose country</label>
-                                    <select name="region">
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="audi">Audi</option>
+                                    <select name="country">
+                                        @foreach(\App\Models\Country::select('id','name_'.$locale)->get() as $country)
+                                            <option value="{{$country->id}}">{{$country['name_'.$locale]}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="single-input-inner style-bg-border">
                                     <label for="">Choose program</label>
-                                    <select name="region">
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="audi">Audi</option>
+                                    <select name="program">
+                                        @foreach(\App\Models\Programm::select('id','name_'.$locale)->get() as $program)
+                                            <option value="{{$program->id}}">{{$program['name_'.$locale]}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="single-input-inner style-bg-border">
                                     <label for="">Choose direction</label>
-                                    <select name="region">
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="audi">Audi</option>
-                                    </select>
-                                </div>
-                                <h4 class="widget-title">{{__('Language Certificate')}}</h4>
-                                <div class="single-input-inner style-bg-border">
-                                    <label for="">Choose certificate</label>
-                                    <select name="region">
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="audi">Audi</option>
+                                    <select name="direction">
+                                       @foreach(\App\Models\Direction::select('id','name_'.$locale)->get() as $direction)
+                                            <option value="{{$direction->id}}">{{$direction['name_'.$locale]}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="single-input-inner style-bg-border">
                                     <div class="range">
                                         <label for="">IELTS</label>
 
-                                        <input style="border: none!important; padding: 0;" type="range" min="4.5" step="0.5" max="9" value="4.5">
+                                        <input style="border: none!important; padding: 0;" type="range" min="4.5" step="0.5" max="9" value="4.5" name="ielts">
                                         <div class="ticks">
                                             <!-- You could generate the ticks based on your min, max & step values. -->
                                             <span class="tick">All</span>
@@ -157,6 +144,11 @@
                                     </div>
 
 
+                                </div>
+                                <div class="widget widget_search_course">
+                                    <h4 class="widget-title">Price</h4>
+                                        <input type="text" name="price_from" placeholder="From">
+                                        <input type="text" name="price_to" placeholder="To">
                                 </div>
                                 <!-- most basic, used for Knobs demo -->
                                 <button class="btn btn-base w-100 mt-3" type="submit">{{__('Filter')}}</button>

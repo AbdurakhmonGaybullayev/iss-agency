@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-
 Route::prefix('/{lang}')->group(function () {
 
     Route::get('/', function () {
@@ -80,15 +78,23 @@ Route::prefix('/{lang}')->group(function () {
         ]);
     })->name('news-details');
 
-    Route::get('/programs',function (){
+    Route::get('/programs',function (\Illuminate\Http\Request $request){
+
+        $universities = \App\Models\University::orderBy('top', 'desc')->orderBy('number', 'desc')->get();
+
+        if ($request->country != '' or $request->program != '' or $request->direction != '' or $request->ielts != '' or $request->price_from != '' or $request->price_to != ''){
+            $universities = \App\Models\University::orderBy('top', 'desc')->orderBy('number', 'desc')->where('price','<=',$request->price_from)->where('price','>=',$request->price_to)->get();
+        }
+
         return view('front.programs.index',[
             'contact'=>\App\Models\Contact::first(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
-            'universities'=>\App\Models\University::orderBy('top', 'desc')->orderBy('number', 'desc')->get(),
+            'universities'=>$universities,
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->take(5)->get(),
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
         ]);
     })->name('programs');
+
 
     Route::get('/programs/{id}',function ($lang,$id){
         return view('front.programs.details',[

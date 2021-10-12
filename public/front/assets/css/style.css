@@ -4967,18 +4967,12 @@ ul li {
 }
 
 .next-lang{
-    display: none;
-    animation-name: slideLeft;
-    animation-duration: 1s;
+    /*display: none;*/
+    transition: transform 250ms;
+    transform: scale(1.2);
 }
 
 @keyframes slideLeft {
-    from {
-        transform: translate(0);
-    }
-    to {
-        transform: translate(-100px);
-    }
 }
 
  input[type=range] {
