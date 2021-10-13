@@ -17,8 +17,8 @@ class BranchTest extends DuskTestCase
         $admin = App\Models\User::find(1);
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin);
-            $browser->visit(route('admin.branch.index'));
-            $browser->assertRouteIs('admin.branch.index');
+            $browser->visit(route('admin.branchs.index'));
+            $browser->assertRouteIs('admin.branchs.index');
         });
     }
 }

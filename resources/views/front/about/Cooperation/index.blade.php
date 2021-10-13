@@ -1,5 +1,7 @@
 @extends('layouts.front.master-2')
 
+@section()
+
 @section('main')
     <!-- breadcrumb start -->
     <div class="breadcrumb-area bg-overlay" style="background-image:url({{asset('front/assets/img/bg/3.png')}})">

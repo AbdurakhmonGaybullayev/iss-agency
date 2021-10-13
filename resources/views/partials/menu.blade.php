@@ -213,7 +213,7 @@
                     <i class="fa-fw fas fa-map-marker-alt c-sidebar-nav-icon">
 
                     </i>
-                    {{ trans('cruds.branch.title') }}
+                    {{ trans('cruds.branchs.title') }}
                 </a>
             </li>
         @endcan

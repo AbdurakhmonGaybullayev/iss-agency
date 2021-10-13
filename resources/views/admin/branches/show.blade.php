@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.branch.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.branchs.title') }}
     </div>
 
     <div class="card-body">
@@ -17,7 +17,7 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.id') }}
+                            {{ trans('cruds.branchs.fields.id') }}
                         </th>
                         <td>
                             {{ $branch->id }}
@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.name_uz') }}
+                            {{ trans('cruds.branchs.fields.name_uz') }}
                         </th>
                         <td>
                             {{ $branch->name_uz }}
@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.name_ru') }}
+                            {{ trans('cruds.branchs.fields.name_ru') }}
                         </th>
                         <td>
                             {{ $branch->name_ru }}
@@ -41,7 +41,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.name_en') }}
+                            {{ trans('cruds.branchs.fields.name_en') }}
                         </th>
                         <td>
                             {{ $branch->name_en }}
@@ -49,7 +49,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.address_uz') }}
+                            {{ trans('cruds.branchs.fields.address_uz') }}
                         </th>
                         <td>
                             {{ $branch->address_uz }}
@@ -57,7 +57,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.address_ru') }}
+                            {{ trans('cruds.branchs.fields.address_ru') }}
                         </th>
                         <td>
                             {{ $branch->address_ru }}
@@ -65,7 +65,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.address_en') }}
+                            {{ trans('cruds.branchs.fields.address_en') }}
                         </th>
                         <td>
                             {{ $branch->address_en }}
@@ -73,7 +73,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.target_uz') }}
+                            {{ trans('cruds.branchs.fields.target_uz') }}
                         </th>
                         <td>
                             {{ $branch->target_uz }}
@@ -81,7 +81,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.target_ru') }}
+                            {{ trans('cruds.branchs.fields.target_ru') }}
                         </th>
                         <td>
                             {{ $branch->target_ru }}
@@ -89,7 +89,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.target_en') }}
+                            {{ trans('cruds.branchs.fields.target_en') }}
                         </th>
                         <td>
                             {{ $branch->target_en }}
@@ -97,7 +97,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.phone_number') }}
+                            {{ trans('cruds.branchs.fields.phone_number') }}
                         </th>
                         <td>
                             {{ $branch->phone_number }}
@@ -105,7 +105,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.email') }}
+                            {{ trans('cruds.branchs.fields.email') }}
                         </th>
                         <td>
                             {{ $branch->email }}
@@ -113,7 +113,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.working_hours') }}
+                            {{ trans('cruds.branchs.fields.working_hours') }}
                         </th>
                         <td>
                             {{ $branch->working_hours }}
@@ -121,7 +121,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.google_map_link') }}
+                            {{ trans('cruds.branchs.fields.google_map_link') }}
                         </th>
                         <td>
                             {{ $branch->google_map_link }}
@@ -129,7 +129,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.number') }}
+                            {{ trans('cruds.branchs.fields.number') }}
                         </th>
                         <td>
                             {{ $branch->number }}
@@ -137,7 +137,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.branch.fields.region') }}
+                            {{ trans('cruds.branchs.fields.region') }}
                         </th>
                         <td>
                             {{ $branch->region }}

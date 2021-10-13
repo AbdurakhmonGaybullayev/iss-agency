@@ -32,7 +32,7 @@
                                 </ul>
                                 <h5 class="title"><a href="{{route('news-details',['id'=>$blog->id,'lang'=>$locale])}}">{{$blog['title_'.$locale]}}</a></h5>
                                 <p>{{substr($blog['short_description_'.$locale],0,70)}}</p>
-                                <a class="read-more-text" href="{{route('news-details',['id'=>$blog->id,'lang'=>$locale])}}">READ MORE <i class="fa fa-angle-right"></i></a>
+                                <a class="read-more-text" href="{{route('news-details',['id'=>$blog->id,'lang'=>$locale])}}">{{__('READ MORE')}} <i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
