@@ -4,14 +4,14 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.branches.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.branch.title_singular') }}
+                {{ trans('global.add') }} {{ trans('cruds.branchs.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.branch.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.branchs.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
@@ -23,25 +23,25 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.branch.fields.id') }}
+                            {{ trans('cruds.branchs.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.branch.fields.name_uz') }}
+                            {{ trans('cruds.branchs.fields.name_uz') }}
                         </th>
                         <th>
-                            {{ trans('cruds.branch.fields.address_uz') }}
+                            {{ trans('cruds.branchs.fields.address_uz') }}
                         </th>
                         <th>
-                            {{ trans('cruds.branch.fields.phone_number') }}
+                            {{ trans('cruds.branchs.fields.phone_number') }}
                         </th>
                         <th>
-                            {{ trans('cruds.branch.fields.email') }}
+                            {{ trans('cruds.branchs.fields.email') }}
                         </th>
                         <th>
-                            {{ trans('cruds.branch.fields.number') }}
+                            {{ trans('cruds.branchs.fields.number') }}
                         </th>
                         <th>
-                            {{ trans('cruds.branch.fields.region') }}
+                            {{ trans('cruds.branchs.fields.region') }}
                         </th>
                         <th>
                             &nbsp;
@@ -181,7 +181,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 let visibleColumnsIndexes = null;
 $('.datatable thead').on('input', '.search', function () {
       let strict = $(this).attr('strict') || false

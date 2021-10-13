@@ -61,7 +61,7 @@
                                             </div>
                                             <div class="media-body align-self-center">
                                                 <h5 class="title"><a
-                                                        href="single-blog.html">{{$blog['title_'.$locale]}}</a></h5>
+                                                        href="#">{{$blog['title_'.$locale]}}</a></h5>
                                                 <div class="post-info"><i
                                                         class="fa fa-calendar"></i><span>{{$blog->created_at}}</span>
                                                 </div>

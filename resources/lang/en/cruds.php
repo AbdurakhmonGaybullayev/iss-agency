@@ -443,7 +443,7 @@ return [
             'article_en_helper'           => ' ',
         ],
     ],
-    'branch' => [
+    'branchs' => [
         'title'          => 'Branch',
         'title_singular' => 'Branch',
         'fields'         => [

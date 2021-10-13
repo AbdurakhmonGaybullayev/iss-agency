@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+@yield('php')
+    <!DOCTYPE html>
 <html lang="zxx">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ISS agency</title>
     <link rel=icon href="{{asset('front/assets/img/logo-iss-favicon.png')}}" sizes="20x20" type="image/png">
@@ -67,14 +68,25 @@
                                 $currentName = \Illuminate\Support\Facades\Route::currentRouteName();
                             @endphp
 
-                            <a class="current-lang" onclick="langSwitch()"><img style="width: 17px; margin-top: -1px" src="{{asset('front/assets/img/flags/flag'.$locale.'.svg')}}" alt=""><p style="display: inline; font-size: 12px">
+                            <a class="current-lang" onclick="langSwitch()"><img style="width: 17px; margin-top: -1px"
+                                                                                src="{{asset('front/assets/img/flags/flag'.$locale.'.svg')}}"
+                                                                                alt="">
+                                <p style="display: inline; font-size: 12px">
                                     {{strtoupper($locale)}}</p></a>
                             @php
                                 $languages = ['uz','ru','en'];
+if (isset($id)){
+    $parameters = ['lang'=>$locale,'id'=>$id];
+}else{
+    $parameters = ['lang'=>$locale];
+}
                             @endphp
                             @foreach($languages as $language)
                                 @if($language != $locale)
-                                    <a class="next-lang" href="{{route($currentName,$language)}}"><img style="width: 17px; margin-top: -1px" src="{{asset('front/assets/img/flags/flag'.$language.'.svg')}}" alt=""><p style="display: inline; font-size: 12px">
+                                    <a class="next-lang" href="{{route($currentName,$language)}}"><img style="width: 17px; margin-top: -1px"
+                                                                      src="{{asset('front/assets/img/flags/flag'.$language.'.svg')}}"
+                                                                      alt="">
+                                        <p style="display: inline; font-size: 12px">
                                             {{strtoupper($language)}}</p></a>
                                 @endif
                             @endforeach
@@ -94,7 +106,8 @@
                 </button>
             </div>
             <div class="logo">
-                <a href="{{route('home',$locale)}}"><img src="{{asset('front/assets/img/logo-iss-2.png')}}" alt="img"></a>
+                <a href="{{route('home',$locale)}}"><img src="{{asset('front/assets/img/logo-iss-2.png')}}"
+                                                         alt="img"></a>
             </div>
             <div class="nav-right-part nav-right-part-mobile">
                 <a class="signin-btn" href="signin.html">{{__('Login')}}</a>
@@ -121,6 +134,7 @@
                         <ul class="sub-menu">
                             <li><a href="{{route('faq',$locale)}}">{{__('FAQ')}}</a></li>
                             <li><a href="{{route('cooperation',$locale)}}">{{__('Cooperation')}}</a></li>
+                            <li><a href="{{route('branch',$locale)}}">{{__('branch')}}</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -527,7 +541,8 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="widget widget_about text-center">
-                        <a href="{{route('home',$locale)}}"><img src="{{asset('front/assets/img/logo-iss-2.png')}}" alt="img"></a>
+                        <a href="{{route('home',$locale)}}"><img src="{{asset('front/assets/img/logo-iss-2.png')}}"
+                                                                 alt="img"></a>
                         <div class="details">
                             <p>Edumint tetur sadipscing elitr tempor invidunt ut labore et dolore magna aliquyam erat,
                                 sed diam voluptua.</p>
@@ -562,7 +577,7 @@
                         <ul>
                             @foreach($news as $blog)
                                 <li>
-                                    <h6><a href="blog-details.html">{{$blog['title_'.$locale] ?? ''}}</a></h6>
+                                    <h6><a href="{{route('news-details',['id'=>$blog->id,'lang'=>$locale])}}">{{$blog['title_'.$locale] ?? ''}}</a></h6>
                                     <span class="date"><i class="fa fa-calendar"></i>{{$blog->created_at->format('d.m.Y') ?? ''}}</span>
                                 </li>
                             @endforeach
@@ -619,13 +634,13 @@
 <script src="{{asset('front/assets/js/main.js')}}"></script>
 <script>
 
-    function langSwitch(){
+    function langSwitch() {
         var lang1 = document.getElementsByClassName('next-lang')[0];
         var lang2 = document.getElementsByClassName('next-lang')[1];
-        if (lang1.style.display == 'none' || lang2.style.display == 'none'){
+        if (lang1.style.display == 'none' || lang2.style.display == 'none') {
             lang1.style.display = 'inline';
             lang2.style.display = 'inline';
-        }else{
+        } else {
             lang1.style.display = 'none';
             lang2.style.display = 'none';
         }

@@ -221,8 +221,8 @@
                         </div>
                         <div class="details">
 
-                            <h5><a href="blog-details.html">{{$blog['title_'.$locale] ?? ''}}</a></h5>
-                            <a class="read-more-text" href="blog-details.html">{{__('READ MORE')}} <i
+                            <h5><a href="{{route('news-details',['id'=>$blog->id,'lang'=>$locale])}}">{{$blog['title_'.$locale] ?? ''}}</a></h5>
+                            <a class="read-more-text" href="{{route('news-details',['id'=>$blog->id,'lang'=>$locale])}}">{{__('READ MORE')}} <i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>

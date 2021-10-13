@@ -1,5 +1,10 @@
 @extends('layouts.front.master-2')
 
+
+@section('php')
+    $id = $album->id;
+@endsection
+
 @section('main')
 
 

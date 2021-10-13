@@ -2,7 +2,6 @@
 
 @section('main')
 
-
     <!-- breadcrumb start -->
     <div class="breadcrumb-area bg-overlay" style="background-image:url({{asset('front/assets/img/bg/3.png')}})">
         <div class="container">
@@ -26,6 +25,7 @@
 
                 @foreach($gallery as $album)
                     <div class="col-lg-4 col-md-6">
+                        <a href="{{route('gallery-detail',['lang'=>$locale,'id'=>$album->id])}}">
                         <div class="single-gallery-inner">
                             <div style="background-image: url({{$album->cover->getUrl()}}); background-size: cover; background-position: center;" class="thumb">
                                 <img style="opacity: 0;" src="{{asset('front/assets/img/gallery/1.png')}}" alt="img">
@@ -35,6 +35,8 @@
                                 <h4><a href="{{route('gallery-detail',['lang'=>$locale,'id'=>$album->id])}}">{{$album['country']['name_'.$locale]}}</a></h4>
                             </div>
                         </div>
+                        </a>
+
                     </div>
                 @endforeach
 

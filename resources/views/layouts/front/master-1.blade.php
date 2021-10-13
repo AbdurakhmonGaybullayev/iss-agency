@@ -126,6 +126,7 @@
                         <ul class="sub-menu">
                             <li><a href="{{route('faq',$locale)}}">{{__('FAQ')}}</a></li>
                             <li><a href="{{route('cooperation',$locale)}}">{{__('Cooperation')}}</a></li>
+                            <li><a href="{{route('branch',$locale)}}">{{__('branch')}}</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -566,7 +567,7 @@
                         <ul>
                             @foreach($news as $blog)
                                 <li>
-                                    <h6><a href="blog-details.html">{{$blog['title_'.$locale] ?? ''}}</a></h6>
+                                    <h6><a href="{{route('news-details',['id'=>$blog->id,'lang'=>$locale])}}">{{$blog['title_'.$locale] ?? ''}}</a></h6>
                                     <span class="date"><i class="fa fa-calendar"></i>{{$blog->created_at->format('d.m.Y') ?? ''}}</span>
                                 </li>
                             @endforeach
