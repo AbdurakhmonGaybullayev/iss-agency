@@ -35,7 +35,8 @@
                         </div>
                         <div class="row photos">
                             @foreach($album->image as $image)
-                                <div class="col-sm-6 col-md-4 col-lg-3 item"><a href="{{$image->getUrl()}}" data-lightbox="photos"><img class="img-fluid" src="{{$image->getUrl()}}"></a></div>
+                                <div class="col-sm-6 col-md-4 col-lg-4 item"><a href="{{$image->getUrl()}}" data-lightbox="photos">
+                                        <img class="img-fluid" src="{{$image->getUrl()}}"></a></div>
                             @endforeach
                         </div>
                     </div>
