@@ -11,7 +11,7 @@
                     <h2 class="page-title">Contact</h2>
                     <ul class="page-list">
                         <li><a href="{{route('home',$locale)}}">{{__('Home')}}</a></li>
-                        <li>Contact</li>
+                        <li>{{__('Contact')}}</li>
                     </ul>
                 </div>
             </div>

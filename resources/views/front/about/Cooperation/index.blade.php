@@ -1,6 +1,5 @@
 @extends('layouts.front.master-2')
 
-@section()
 
 @section('main')
     <!-- breadcrumb start -->
