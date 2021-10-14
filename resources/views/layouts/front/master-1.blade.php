@@ -75,12 +75,7 @@
                             @php
                              $languages = ['uz','ru','en'];
                             @endphp
-                            @foreach($languages as $language)
-                                @if($language != $locale)
-                                    <a class="next-lang" href="{{route($currentName,$language)}}"><img style="width: 17px; margin-top: -1px" src="{{asset('front/assets/img/flags/flag'.$language.'.svg')}}" alt=""><p style="display: inline; font-size: 12px">
-                                            {{strtoupper($language)}}</p></a>
-                                @endif
-                            @endforeach
+
 
                         </li>
 
@@ -671,6 +666,9 @@
 
 
 </script>
+
+
+
 @yield('js')
 </body>
 </html>
