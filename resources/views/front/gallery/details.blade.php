@@ -1,9 +1,8 @@
 @extends('layouts.front.master-2')
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
 
-@section('php')
-    $id = $album->id;
-@endsection
 
 @section('main')
 
@@ -27,17 +26,21 @@
     <!-- gallery area start -->
     <div class="team-area pd-top-120 pd-bottom-90">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center ">
 
-                @foreach($album->image as $image)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-gallery-inner">
-                            <div style="background-image: url({{$image->getUrl()}}); background-size: cover; background-position: center;" class="thumb">
-                                <img style="opacity: 0;" src="{{asset('front/assets/img/gallery/1.png')}}" alt="img">
-                            </div>
+                <div class="photo-gallery">
+                    <div class="container">
+                        <div class="intro">
+                            <h2 class="text-center">Lightbox Gallery</h2>
+                        </div>
+                        <div class="row photos">
+                            @foreach($album->image as $image)
+                                <div class="col-sm-6 col-md-4 col-lg-4 item"><a href="{{$image->getUrl()}}" data-lightbox="photos">
+                                        <img class="img-fluid" src="{{$image->getUrl()}}"></a></div>
+                            @endforeach
                         </div>
                     </div>
-                @endforeach
+                </div>
 
 
             </div>
@@ -144,6 +147,10 @@
         </div>
     </div>
     <!-- testimonial area end -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
 
 
 @endsection
