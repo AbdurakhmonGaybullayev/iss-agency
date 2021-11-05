@@ -45,14 +45,43 @@ class DocumentController extends Controller
         return view('admin.documents.show', compact('document'));
     }
 
+
     public function destroy(Document $document)
     {
         abort_if(Gate::denies('document_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $document->delete();
 
-        return back();
+        function deleteDirectory($dir) {
+            if (!file_exists($dir)) {
+                return true;
+            }
+
+            if (!is_dir($dir)) {
+                return unlink($dir);
+            }
+
+            foreach (scandir($dir) as $item) {
+                if ($item == '.' || $item == '..') {
+                    continue;
+                }
+
+                if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+                    return false;
+                }
+
+            }
+
+            return rmdir($dir);
+        }
+
+        if (deleteDirectory(public_path('storage/documents/'.$document->folder_name)) && $document->delete()){
+            return back();
+        }
+
+
     }
+
+
 
     public function massDestroy(MassDestroyDocumentRequest $request)
     {
@@ -72,4 +101,6 @@ class DocumentController extends Controller
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
+
+
 }

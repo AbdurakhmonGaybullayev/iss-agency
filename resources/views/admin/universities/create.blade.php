@@ -196,7 +196,7 @@
                 </div>
                 <div class="form-group">
                     <label class="required" for="ielts">{{ trans('cruds.university.fields.ielts') }}</label>
-                    <input class="form-control {{ $errors->has('ielts') ? 'is-invalid' : '' }}" type="number" name="ielts" id="ielts" value="{{ old('ielts', $university->ielts) }}" step="0.01" required>
+                    <input class="form-control {{ $errors->has('ielts') ? 'is-invalid' : '' }}" type="number" name="ielts" id="ielts" value="{{ old('ielts', '') }}" required>
                     @if($errors->has('ielts'))
                         <div class="invalid-feedback">
                             {{ $errors->first('ielts') }}
@@ -206,7 +206,7 @@
                 </div>
                 <div class="form-group">
                     <label class="required" for="price">{{ trans('cruds.university.fields.price') }}</label>
-                    <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price" id="price" value="{{ old('price', $university->price) }}" step="0.01" required>
+                    <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price" id="price" value="{{ old('price', '') }}" required>
                     @if($errors->has('price'))
                         <div class="invalid-feedback">
                             {{ $errors->first('price') }}

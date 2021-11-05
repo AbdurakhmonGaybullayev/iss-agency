@@ -28,8 +28,8 @@
                     <div class="media single-event-inner">
 
                         <div class="media-body details">
-                            <h5>{{$faq->question}}</h5>
-                            <p>{{$faq->answer}}</p>
+                            <h5>{{$faq['question_'.$locale]}}</h5>
+                            <p>{{$faq['answer_'.$locale]}}</p>
                         </div>
                     </div>
                 </div>
@@ -37,31 +37,7 @@
 
 
                 <div class="col-12">
-                    <nav class="td-page-navigation text-center">
-                        <ul class="pagination">
-                            <li
-                            @if ($faqs->onFirstPage())
-                                style="display: none"
-                            @endif
-
-                            class="pagination-arrow"><a href="
-
-                            @if(!$faqs->onFirstPage())
-                                   {{ $faqs->previousPageUrl() }}
-                            @endif
-                            "><i class="fa fa-angle-double-left"></i></a></li>
-
-                            <li
-                                @if(!$faqs->hasMorePages())
-                                    style="display: none"
-                                @endif
-                                class="pagination-arrow"><a href="
-                            @if ($faqs->hasMorePages())
-                                {{ $faqs->nextPageUrl() }}
-                            @endif
-                                "><i class="fa fa-angle-double-right"></i></a></li>
-                        </ul>
-                    </nav>
+                    {{$faqs->links('layouts.pagination.index',['query'=>$faqs])}}
                 </div>
             </div>
         </div>

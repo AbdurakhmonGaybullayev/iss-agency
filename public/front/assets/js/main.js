@@ -9,7 +9,7 @@
          *  Navbar fix
          * ---------------------------*/
         $(document).on('click', '.navbar-area .navbar-nav li.menu-item-has-children>a', function (e) {
-            e.preventDefault();
+
         })
 
         /*-------------------------------------

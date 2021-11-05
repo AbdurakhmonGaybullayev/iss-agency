@@ -1,20 +1,20 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.document.title') }}
-    </div>
+    <div class="card">
+        <div class="card-header">
+            {{ trans('global.show') }} {{ trans('cruds.document.title') }}
+        </div>
 
-    <div class="card-body">
-        <div class="form-group">
+        <div class="card-body">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.documents.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
-            <table class="table table-bordered table-striped">
-                <tbody>
+                <div class="form-group">
+                    <a class="btn btn-default" href="{{ route('admin.documents.index') }}">
+                        {{ trans('global.back_to_list') }}
+                    </a>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <tbody>
                     <tr>
                         <th>
                             {{ trans('cruds.document.fields.id') }}
@@ -28,7 +28,20 @@
                             {{ trans('cruds.document.fields.user') }}
                         </th>
                         <td>
-                            {{ $document->user->name ?? '' }}
+                            {{ $document->user->first_name ?? '' }} {{ $document->user->last_name ?? '' }} {{ $document->user->middle_name ?? '' }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            {{ trans('cruds.document.fields.photo') }}
+                        </th>
+                        <td>
+                            @if($document->photo)
+                                <a href="{{ asset('storage/documents/'.$document->folder_name.'/photo/'.$document->photo) }}" target="_blank" style="display: inline-block">
+                                    <img style="height: 100px" src="{{ asset('storage/documents/'.$document->folder_name.'/photo/'.$document->photo) }}">
+                                </a>
+                            @endif
                         </td>
                     </tr>
                     <tr>
@@ -45,8 +58,8 @@
                         </th>
                         <td>
                             @if($document->passport)
-                                <a href="{{ asset('storage/documents/'.basename($document->folder_name).'/passport/'.$document->passport)}}" target="_blank">
-                                    {{ trans('global.view_file') }}
+                                <a href="{{ asset('storage/documents/'.$document->folder_name.'/passport/'.$document->passport) }}" target="_blank" style="display: inline-block">
+                                    <img style="height: 150px" src="{{ asset('storage/documents/'.$document->folder_name.'/passport/'.$document->passport) }}">
                                 </a>
                             @endif
                         </td>
@@ -57,20 +70,8 @@
                         </th>
                         <td>
                             @if($document->diploma)
-                                <a href="{{ asset('storage/documents/'.basename($document->folder_name).'/diploma/'.$document->diploma) }}" target="_blank">
-                                    {{ trans('global.view_file') }}
-                                </a>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.document.fields.certificates') }}
-                        </th>
-                        <td>
-                            @if($document->certificates)
-                                <a href="{{asset('storage/documents/'.basename($document->folder_name).'/other_certificates/'.$document->certificates)}}" target="_blank">
-                                    {{ trans('global.view_file') }}
+                                <a href="{{ asset('storage/documents/'.$document->folder_name.'/diploma/'.$document->diploma) }}" target="_blank" style="display: inline-block">
+                                    <img style="height: 150px" src="{{ asset('storage/documents/'.$document->folder_name.'/diploma/'.$document->diploma) }}">
                                 </a>
                             @endif
                         </td>
@@ -81,24 +82,25 @@
                         </th>
                         <td>
                             @if($document->certificate)
-                                <a href="{{ asset('storage/documents/'.basename($document->folder_name).'/certificate/'.$document->certificate) }}" target="_blank">
-                                    {{ trans('global.view_file') }}
+                                <a href="{{ asset('storage/documents/'.$document->folder_name.'/certificate/'.$document->certificate) }}" target="_blank" style="display: inline-block">
+                                    <img style="height: 150px" src="{{ asset('storage/documents/'.$document->folder_name.'/certificate/'.$document->certificate) }}">
                                 </a>
                             @endif
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.document.fields.photo') }}
+                            {{ trans('cruds.document.fields.certificates') }}
                         </th>
                         <td>
-                            @if($document->photo)
-                                <a href="{{ asset('storage/documents/'.basename($document->folder_name).'/photo/'.$document->photo) }}" target="_blank" style="display: inline-block">
-                                    <img src="{{ $document->photo->getUrl('thumb') }}">
+                            @if($document->certificates)
+                                <a href="{{ asset('storage/documents/'.$document->folder_name.'/other_certificates/'.$document->certificates) }}" target="_blank" style="display: inline-block">
+                                    <img style="height: 150px" src="{{ asset('storage/documents/'.$document->folder_name.'/other_certificates/'.$document->certificates) }}">
                                 </a>
                             @endif
                         </td>
                     </tr>
+
                     <tr>
                         <th>
                             {{ trans('cruds.document.fields.direction') }}
@@ -114,17 +116,25 @@
                         <td>
                             <input type="checkbox" disabled="disabled" {{ $document->status ? 'checked' : '' }}>
                         </td>
+
+                        @php
+                            if($document->status == 0){
+                            $documents = \App\Models\Document::where('id',$document->id)->first();
+                            $documents->status = 1;
+                            $documents->save();
+                        }
+                        @endphp
                     </tr>
-                </tbody>
-            </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.documents.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <a class="btn btn-default" href="{{ route('admin.documents.index') }}">
+                        {{ trans('global.back_to_list') }}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 

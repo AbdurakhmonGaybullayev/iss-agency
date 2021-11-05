@@ -30,7 +30,7 @@
                 <span class="help-block">{{ trans('cruds.qandA.fields.question_uz_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="question_ru">{{ trans('cruds.qandA.fields.question_ru') }}</label>
+                <label class="required" for="question_ru">{{ trans('cruds.qandA.fields.question_ru') }}</label>
                 <textarea class="form-control {{ $errors->has('question_ru') ? 'is-invalid' : '' }}" name="question_ru" id="question_ru">{{ old('question_ru') }}</textarea>
                 @if($errors->has('question_ru'))
                     <div class="invalid-feedback">
@@ -40,7 +40,7 @@
                 <span class="help-block">{{ trans('cruds.qandA.fields.question_ru_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="question_en">{{ trans('cruds.qandA.fields.question_en') }}</label>
+                <label class="required" for="question_en">{{ trans('cruds.qandA.fields.question_en') }}</label>
                 <textarea class="form-control {{ $errors->has('question_en') ? 'is-invalid' : '' }}" name="question_en" id="question_en">{{ old('question_en') }}</textarea>
                 @if($errors->has('question_en'))
                     <div class="invalid-feedback">

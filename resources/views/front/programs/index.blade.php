@@ -53,14 +53,14 @@
                                                         class="align-self-center">{{$university->country['name_'.$locale]}}</span>
                                                 </div>
                                                 <h6>
-                                                    <a href="{{route('program-details',['lang'=>$locale,'id'=>$university->id])}}">{{$university['name_'.$locale]}}</a>
+                                                    <a href="cc">{{$university['name_'.$locale]}}</a>
                                                 </h6>
                                             </div>
                                             <div class="emt-course-meta">
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="rating">
-                                                            IELTS:<span>{{$university->ielts}}</span>
+                                                            IELTS: <span>{{$university->ielts}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
@@ -139,11 +139,11 @@
                                         <label for="">IELTS</label>
 
                                         <input name="ielts" style="border: none!important; padding: 0;" type="range"
-                                               min="4.5" step="0.5" max="9"
-                                               value="{!! isset($_GET['ielts']) ? $_GET['ielts'] : '4.5' !!}">
+                                               min="4.5" step="0.5" max="9.5"
+                                               value="{!! isset($_GET['ielts']) ? $_GET['ielts'] : '4' !!}">
                                         <div class="ticks">
                                             <!-- You could generate the ticks based on your min, max & step values. -->
-                                            <span class="tick">No</span>
+                                            <span class="tick">All</span>
                                             <span class="tick">5</span>
                                             <span class="tick">5.5</span>
                                             <span class="tick">6</span>
@@ -153,6 +153,8 @@
                                             <span class="tick">8</span>
                                             <span class="tick">8.5</span>
                                             <span class="tick">9</span>
+                                            <span class="tick">No</span>
+
                                         </div>
                                         <input id="ex16b" type="text"/><br/>
                                         <script>
@@ -174,9 +176,9 @@
                                         <p style="width: 49%"> {{__("To")}}:</p>
                                     </div>
                                     <input style="width: 49%" type="number" name="price_from" placeholder="From:"
-                                           value="{!! isset($_GET['price_from']) ? $_GET['price_from'] : $price_from !!}">
+                                           value="{!! isset($_GET['price_from']) ? $_GET['price_from'] != '' ? $_GET['price_from'] : 0 : $price_from !!}">
                                     <input style="width: 49%" type="number" name="price_to" placeholder="To:"
-                                           value="{!! isset($_GET['price_to']) ? $_GET['price_to'] : $price_to !!}">
+                                           value="{!! isset($_GET['price_to']) ? $_GET['price_to'] != '' ? $_GET['price_to'] : $price_to : $price_to !!}">
                                 </div>
                                 <!-- most basic, used for Knobs demo -->
                                 <button class="btn btn-base w-100 mt-3" type="submit">{{__('Filter')}}</button>
@@ -209,22 +211,28 @@
                 var val = $(this).val();
                 var name = $(this).find(':selected').data('name');
 
+                $("#direction").html("<option value='' disabled selected>{{__('Choose direction')}}</option>")
+
                 @foreach($program_ids as $program_id)
                 if (val == "{{$program_id}}") {
-                    $("#direction").html("@foreach($directions as $direction)@if($program_id == $direction->programm_id)<option value='{{$direction->direction_id}}'>@if($locale=='en'){{$direction->name_en}}@elseif($locale=='ru'){{$direction->name_ru}}@elseif($locale=='uz'){{$direction->name_uz}}@endif</option>@endif @endforeach");
+                    $("#direction").html($("#direction").html()+"@foreach($directions as $direction)@if($program_id == $direction->programm_id)<option value='{{$direction->direction_id}}'>@if($locale=='en'){{$direction->name_en}}@elseif($locale=='ru'){{$direction->name_ru}}@elseif($locale=='uz'){{$direction->name_uz}}@endif</option>@endif @endforeach");
                 }
                 @endforeach
 
             });
 
+@if(isset($_GET['direction']))
             var val = $("#program").val();
             var name = $("#program").find(':selected').data('name');
 
+            $("#direction").html("<option value='' disabled selected>{{__('Choose direction')}}</option>")
+
             @foreach($program_ids as $program_id)
             if (val == "{{$program_id}}") {
-                $("#direction").html("@foreach($directions as $direction)@if($program_id == $direction->programm_id)<option value='{{$direction->direction_id}}'>@if($locale=='en'){{$direction->name_en}}@elseif($locale=='ru'){{$direction->name_ru}}@elseif($locale=='uz'){{$direction->name_uz}}@endif</option>@endif @endforeach");
+                $("#direction").html($("#direction").html()+"@foreach($directions as $direction)@if($program_id == $direction->programm_id)<option value='{{$direction->direction_id}}' @if($direction->direction_id == $_GET['direction']) selected @endif>@if($locale=='en'){{$direction->name_en}}@elseif($locale=='ru'){{$direction->name_ru}}@elseif($locale=='uz'){{$direction->name_uz}}@endif</option>@endif @endforeach");
             }
             @endforeach
+@endif
         });
     </script>
 @endsection

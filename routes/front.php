@@ -37,7 +37,6 @@ Route::prefix('/{lang}')->group(function () {
             'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
-            'directions'=>\App\Models\Direction::join('direction_programm','programms.id','=','direction_programm.programm_id')->join('direction_university','direction_university.direction_id','direction_programm.direction_id')->select('programms.*')->take(5)->get()->unique(),
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
         ]);
     })->name('faq');
@@ -116,8 +115,6 @@ Route::prefix('/{lang}')->group(function () {
     })->name('news-details');
 
     Route::get('/programs',[\App\Http\Controllers\Front\FrontController::class,'programs'])->name('programs');
-
-    Route::get('/search',[\App\Http\Controllers\Front\FrontController::class,'search'])->name('search');
 
     Route::get('/programs/{id}',function ($lang,$id){
         $university = \App\Models\University::where('id',$id)->first();
@@ -304,5 +301,8 @@ Route::prefix('/{lang}')->group(function () {
 
     Route::post('admission',[\App\Http\Controllers\Front\FrontController::class,'document'])->name('admission-send');
 
+    Route::get('admission',[\App\Http\Controllers\Front\FrontController::class,'search'])->name('search');
+
+    Route::get('/search',[\App\Http\Controllers\Front\FrontController::class,'search'])->name('search');
 
 });

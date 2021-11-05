@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Application;
 use App\Models\Cooperation;
 use App\Models\Document;
+use App\Models\News;
+use App\Models\QandA;
 use App\Models\University;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,27 +27,33 @@ class FrontController extends Controller
 
                 $universities = University::where('universities.name_en', 'like', '%%');
 
-                if ($request->direction) {
+                if ($request->direction && $request->direction != '') {
                     $universities = $universities->join('direction_university', 'direction_university.university_id', 'universities.id');
                 }
 
-                if ($request->program) {
+                if ($request->direction && $request->direction != '' && $request->program && $request->program != '') {
                     $universities = $universities->join('direction_programm', 'direction_programm.direction_id', 'direction_university.direction_id');
                 }
 
-                if ($request->country) {
+                if ($request->country && $request->country != '') {
                     $universities = $universities->where('universities.country_id', $request->country);
                 }
 
-                if ($request->ielts) {
+                if ($request->ielts && $request->ielts != '' && $request->ielts != '4.5') {
+                    if ($request->ielts == '9.5'){
+                        $request->ielts = 0;
+                    }
                     $universities = $universities->where('universities.ielts', $request->ielts);
                 }
 
                 if ($request->price_from) {
+                    if ($request->price_from == ''){
+                        $request->price_from = 0;
+                    }
                     $universities = $universities->where('universities.price', '>=', $request['price_from']);
                 }
 
-                if ($request->price_to) {
+                if ($request->price_to && $request->price_to != '') {
                     $universities = $universities->where('universities.price', '<=', $request['price_to']);
                 }
 
@@ -58,7 +66,6 @@ class FrontController extends Controller
                     ->distinct('universities.id')
                     ->orderBy('top', 'desc')->orderBy('number', 'desc')
                     ->paginate($items_per_page);
-//                dd($universities);
 
 
 
@@ -87,7 +94,7 @@ class FrontController extends Controller
                     ->distinct('universities.id')
                     ->orderBy('universities.top', 'desc')
                     ->orderBy('universities.number', 'desc')
-                    ->paginate($items_per_page);;
+                    ->paginate($items_per_page);
 
                 $universities_price = \App\Models\University::join('countries', 'countries.id', 'universities.country_id')
                     ->join('direction_university', 'direction_university.university_id', 'universities.id')
@@ -197,9 +204,9 @@ class FrontController extends Controller
 
             $ielts = ($request->certificate_status - 1) == 1 ? "Bor" : "Yo`q";
 
-            $phone_number_2 = $request->phone_number_2 != '' ?  PHP_EOL ."📞 Telefon raqami 2: " . $request->phone_number_2 : '';
+            $phone_number_2 = $request->phone_number_2 != '' ?  PHP_EOL ."📞 <b>Telefon raqami 2:</b> " . $request->phone_number_2 : '';
 
-            $text = "👨‍💼 <b>Ariza beruvchi :</b> " . $request->first_name . " " . $request->last_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . $request->phone_number_1 . $phone_number_2 . PHP_EOL . "📧 <b>Email :</b> " . $request->email . PHP_EOL . "📄 <b>IELTS :</b> " . $ielts . PHP_EOL . PHP_EOL . "<b>Mavzu</b> : <i>" . $request->subject .'</i>' . PHP_EOL . "<b>Ariza</b> : " . $request->message;
+            $text = "<b>Ariza</b>".PHP_EOL.PHP_EOL."👨‍💼 <b>Ariza beruvchi :</b> " . $request->first_name . " " . $request->last_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . $request->phone_number_1 . $phone_number_2 . PHP_EOL . "📧 <b>Email :</b> " . $request->email . PHP_EOL . "📄 <b>IELTS :</b> " . $ielts . PHP_EOL . PHP_EOL . "<b>Mavzu</b> : <i>" . $request->subject .'</i>' . PHP_EOL . "<b>Ariza</b> : " . $request->message;
 
             Telegram::sendMessage(
                 [
@@ -245,11 +252,11 @@ class FrontController extends Controller
 
         //User Folder Create
 
-        $user_path = public_path('storage/documents/' . Auth::user()->id . "." . Auth::user()->first_name . '_' . Auth::user()->last_name . '_' . Auth::user()->middle_name . '_' . 'for_' . $request->university_id . '.' . $request->university_name . '_' . uniqid() . '_' . rand(0, 1000) . "_" . time());
+        $document->folder_name = Auth::user()->id . "." . Auth::user()->first_name . '_' . Auth::user()->last_name . '_' . Auth::user()->middle_name . '_' . 'for_' . $request->university_id . '.' . $request->university_name . '_' . uniqid() . '_' . rand(0, 1000) . "_" . time();
+
+        $user_path = public_path('storage/documents/' . $document->folder_name);
 
         File::makeDirectory($user_path, $mode = 0777, true, true);
-
-        $document->folder_name = $user_path;
 
         //photo
 
@@ -289,7 +296,7 @@ class FrontController extends Controller
 
         File::makeDirectory($path, $mode = 0777, true, true);
 
-        $diploma->move($path, $new_name_passport);
+        $diploma->move($path, $new_name_diploma);
 
         $document->diploma = $new_name_diploma;
 
@@ -322,11 +329,33 @@ class FrontController extends Controller
         $document->certificates = $new_name_certificates;
 
         if ($document->save()) {
+
+            $text = "<b>Hujjat</b>".PHP_EOL.PHP_EOL."👨‍💼 <b>Hujjat topshiruvchi :</b> " . Auth::user()->first_name . " " . Auth::user()->last_name . " " . Auth::user()->middle_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . Auth::user()->phone_number . PHP_EOL . "📧 <b>Email :</b> " . Auth::user()->email . PHP_EOL . PHP_EOL . "<b>🌐 Havola:</b> " . route('admin.documents.show', $document->id);
+
+            Telegram::sendMessage(
+                [
+                    'chat_id' => 558076266,
+                    'parse_mode' => 'HTML',
+                    'text' => $text
+                ]
+            );
+
             return redirect()->back()->with(['success' => 'Documents Sent']);
         } else {
             return redirect()->back()->with(['fail' => 'Error Data']);
         }
 
+    }
 
+    public function search(Request $request){
+
+
+        return view('front.search.index', [
+            'contact' => \App\Models\Contact::where('type', 1)->first(),
+            'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
+            'countries' => \App\Models\Country::join('universities', 'universities.country_id', 'countries.id')->select('countries.*')->orderBy('countries.name_en', 'asc')->get()->unique(),
+            'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.id', 'programms.name_uz', 'programms.name_ru', 'programms.name_en')->orderBy('programms.id', 'asc')->get()->unique(),
+            'locale' => \Illuminate\Support\Facades\App::getLocale(),
+        ]);
     }
 }

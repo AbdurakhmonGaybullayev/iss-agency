@@ -22,13 +22,6 @@ class Document extends Model implements HasMedia
         'deleted_at',
     ];
 
-    protected $appends = [
-        'passport',
-        'diploma',
-        'certificate',
-        'photo',
-    ];
-
     protected $fillable = [
         'user_id',
         'university_id',
@@ -37,6 +30,11 @@ class Document extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
+        'passport',
+        'diploma',
+        'certificate',
+        'certificates',
+        'photo',
     ];
 
     public function registerMediaConversions(Media $media = null): void
@@ -55,36 +53,9 @@ class Document extends Model implements HasMedia
         return $this->belongsTo(University::class, 'university_id');
     }
 
-    public function getPassportAttribute()
-    {
-        return $this->getMedia('passport')->last();
-    }
-
-    public function getDiplomaAttribute()
-    {
-        return $this->getMedia('diploma')->last();
-    }
-
     public function certificates()
     {
         return $this->belongsToMany(Certificate::class);
-    }
-
-    public function getCertificateAttribute()
-    {
-        return $this->getMedia('certificate');
-    }
-
-    public function getPhotoAttribute()
-    {
-        $file = $this->getMedia('photo')->last();
-        if ($file) {
-            $file->url       = $file->getUrl();
-            $file->thumbnail = $file->getUrl('thumb');
-            $file->preview   = $file->getUrl('preview');
-        }
-
-        return $file;
     }
 
     public function direction()

@@ -21,13 +21,10 @@
                             {{ trans('cruds.document.fields.user') }}
                         </th>
                         <th>
-                            {{ trans('cruds.document.fields.university') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.document.fields.certificates') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.document.fields.photo') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.document.fields.university') }}
                         </th>
                         <th>
                             {{ trans('cruds.document.fields.direction') }}
@@ -35,6 +32,7 @@
                         <th>
                             {{ trans('cruds.document.fields.status') }}
                         </th>
+
                         <th>
                             &nbsp;
                         </th>
@@ -49,7 +47,7 @@
                             <select class="search">
                                 <option value>{{ trans('global.all') }}</option>
                                 @foreach($users as $key => $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                    <option value="{{ $item->last_name }}">{{ $item->last_name }}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -88,7 +86,14 @@
                                 {{ $document->id ?? '' }}
                             </td>
                             <td>
-                                {{ $document->user->name ?? '' }}
+                                {{ $document->user->first_name ?? '' }} {{ $document->user->last_name ?? '' }} {{ $document->user->middle_name ?? '' }}
+                            </td>
+                            <td>
+                                @if($document->photo)
+                                    <a href="{{ asset('storage/documents/'.$document->folder_name.'/photo/'.$document->photo) }}" target="_blank" style="display: inline-block">
+                                        <img style="height: 70px" src="{{ asset('storage/documents/'.$document->folder_name.'/photo/'.$document->photo) }}">
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                 {{ $document->university->name_uz ?? '' }}
@@ -101,6 +106,7 @@
                                 <span style="display:none">{{ $document->status ?? '' }}</span>
                                 <input type="checkbox" disabled="disabled" {{ $document->status ? 'checked' : '' }}>
                             </td>
+
                             <td>
                                 @can('document_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.documents.show', $document->id) }}">

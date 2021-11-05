@@ -40,8 +40,6 @@ class University extends Model implements HasMedia
         'article_description_en',
         'country_id',
         'number',
-        'image',
-        'country_logo',
         'ielts',
         'price',
         'created_at',

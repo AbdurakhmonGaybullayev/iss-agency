@@ -354,12 +354,13 @@
                             <div class="widget widget_tags mb-0">
                                 @if($programs->count() != 0)
                                     <h4 class="widget-title">{{__('Directions')}}</h4>
+                                    <div class="tagcloud">
+                                        @foreach($programs as $program)
+                                            <a href="#">{{$program['name_'.$locale]}}</a>
+                                        @endforeach
+                                    </div>
                                 @endif
-                                <div class="tagcloud">
-                                    @foreach($programs as $program)
-                                        <a href="#">{{$program['name_'.$locale]}}</a>
-                                    @endforeach
-                                </div>
+
                             </div>
                         </div>
                     </div>

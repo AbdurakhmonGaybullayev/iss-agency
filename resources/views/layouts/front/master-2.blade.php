@@ -29,7 +29,7 @@
 
 <!-- search popup start-->
 <div class="td-search-popup" id="td-search-popup">
-    <form method="get" action="{{route('programs',$locale)}}" class="search-form">
+    <form method="get" action="{{route('search',$locale)}}" class="search-form">
         <div class="form-group">
             <input type="text" name="search" class="form-control" placeholder="Search...">
         </div>
@@ -156,7 +156,7 @@
                             <ul class="category-list">
                                 @foreach($programs as $program)
                                 <li class="item">
-                                    <a href="{{route('programs',$locale).'?search='.$program['name_'.$locale]}}"
+                                    <a href="{{route('programs',$locale).'?program='.$program->id}}"
                                        class="link active">{{$program['name_'.$locale]}} </a>                                                  </a>
                                 </li>
                                 @endforeach
@@ -171,7 +171,7 @@
                             <div class="row">
                                 @foreach(\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->orderBy('countries.name_en','asc')->get()->unique() as $country)
                                 <div class="col-md-3">
-                                    <a href="{{route('programs',$locale).'?search='.$country->id}}" class="large-menu-item">
+                                    <a href="{{route('programs',$locale).'?country='.$country->id}}" class="large-menu-item">
                                         <img src="{{$country->country_logo->getUrl()}}" alt="">
                                         <span class="title">
                                                     {{$country['name_'.$locale]}}                                                </span>
@@ -249,7 +249,7 @@
                         <h4 class="widget-title">{{__('Programs')}}</h4>
                         <ul>
                             @foreach($programs->take(5) as $program)
-                                <li><a href="{{route('programs',$locale).'?search='.$program['name_'.$locale]}}">{{$program['name_'.$locale]}}</a></li>
+                                <li><a href="{{route('programs',$locale).'$?program='.$program->id}}">{{$program['name_'.$locale]}}</a></li>
                             @endforeach
                         </ul>
                     </div>
