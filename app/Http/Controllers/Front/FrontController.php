@@ -160,6 +160,17 @@ class FrontController extends Controller
         $cooperation->status = 0;
 
         if ($cooperation->save()) {
+
+            $text = "<b>Hamkorlik</b>".PHP_EOL.PHP_EOL."👨‍💼 <b>Taklif beruvchi :</b> " . Auth::user()->first_name . " " . Auth::user()->last_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . Auth::user()->phone_number . PHP_EOL . "📧 <b>Email :</b> " . Auth::user()->email . PHP_EOL . "📄 <b>Kompaniya :</b> " . $cooperation->company_name . PHP_EOL . "<b>👝 Lavozim :</b> " . $cooperation->position .  PHP_EOL . "<b>🌐 Havola:</b> " . route('admin.cooperations.show', $cooperation->id) .  PHP_EOL .  PHP_EOL .  "<b>Taklif</b> : " . $cooperation->message;
+
+            Telegram::sendMessage(
+                [
+                    'chat_id' => 558076266,
+                    'parse_mode' => 'HTML',
+                    'text' => $text
+                ]
+            );
+
             return redirect()->back()->with(['success' => 'true']);
         } else {
             return redirect()->back()->with(['fail' => 'true']);

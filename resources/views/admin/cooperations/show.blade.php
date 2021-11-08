@@ -37,7 +37,7 @@
                             {{ trans('cruds.cooperation.fields.user') }}
                         </th>
                         <td>
-                            {{ $cooperation->user->name ?? '' }}
+                            {{ $cooperation->user->first_name ?? '' }} {{ $cooperation->user->last_name ?? '' }} {{ $cooperation->user->middle_name ?? '' }}
                         </td>
                     </tr>
                     <tr>

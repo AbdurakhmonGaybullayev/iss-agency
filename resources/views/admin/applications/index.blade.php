@@ -15,9 +15,6 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.application.fields.id') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.application.fields.user') }}
                         </th>
 
@@ -66,9 +63,7 @@
                             <td>
 
                             </td>
-                            <td>
-                                {{ $application->id ?? '' }}
-                            </td>
+
                             <td>
                                 {{ $application->first_name ?? '' }} {{ $application->last_name ?? '' }}
                             </td>
@@ -76,7 +71,7 @@
                                 {{ $application->certificate_status ? 'Yes' : 'No' }}
                             </td>
                             <td>
-                                {{ $application->status ? 'Read' : 'Unread' }}
+                                {{ $application->status ? 'Read' : ' No' }}
                             </td>
 
                             <td>
