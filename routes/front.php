@@ -181,7 +181,7 @@ Route::prefix('/{lang}')->group(function () {
            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
            'contact'=>\App\Models\Contact::where('type',1)->first(),
            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
-           'Branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
+           'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
            'foradmission'=>null,
        ]);
     })->name('sign-up');
