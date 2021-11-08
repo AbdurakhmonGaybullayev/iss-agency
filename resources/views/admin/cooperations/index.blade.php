@@ -74,7 +74,7 @@
                                 {{ $cooperation->id ?? '' }}
                             </td>
                             <td>
-                                {{ $cooperation->user->name ?? '' }}
+                                {{ $cooperation->user->first_name ?? '' }} {{ $cooperation->user->last_name ?? '' }}
                             </td>
                             <td>
                                 {{ $cooperation->user->email ?? '' }}
@@ -163,7 +163,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 let visibleColumnsIndexes = null;
 $('.datatable thead').on('input', '.search', function () {
       let strict = $(this).attr('strict') || false

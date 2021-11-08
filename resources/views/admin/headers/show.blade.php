@@ -1,20 +1,20 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.header.title') }}
-    </div>
+    <div class="card">
+        <div class="card-header">
+            {{ trans('global.show') }} {{ trans('cruds.header.title') }}
+        </div>
 
-    <div class="card-body">
-        <div class="form-group">
+        <div class="card-body">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.headers.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
-            <table class="table table-bordered table-striped">
-                <tbody>
+                <div class="form-group">
+                    <a class="btn btn-default" href="{{ route('admin.headers.index') }}">
+                        {{ trans('global.back_to_list') }}
+                    </a>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <tbody>
                     <tr>
                         <th>
                             {{ trans('cruds.header.fields.id') }}
@@ -29,7 +29,8 @@
                         </th>
                         <td>
                             @if($header->about_us)
-                                <a href="{{ $header->about_us->getUrl() }}" target="_blank" style="display: inline-block">
+                                <a href="{{ $header->about_us->getUrl() }}" target="_blank"
+                                   style="display: inline-block">
                                     <img src="{{ $header->about_us->getUrl('thumb') }}">
                                 </a>
                             @endif
@@ -41,7 +42,8 @@
                         </th>
                         <td>
                             @if($header->gallery)
-                                <a href="{{ $header->gallery->getUrl() }}" target="_blank" style="display: inline-block">
+                                <a href="{{ $header->gallery->getUrl() }}" target="_blank"
+                                   style="display: inline-block">
                                     <img src="{{ $header->gallery->getUrl('thumb') }}">
                                 </a>
                             @endif
@@ -65,7 +67,8 @@
                         </th>
                         <td>
                             @if($header->programs)
-                                <a href="{{ $header->programs->getUrl() }}" target="_blank" style="display: inline-block">
+                                <a href="{{ $header->programs->getUrl() }}" target="_blank"
+                                   style="display: inline-block">
                                     <img src="{{ $header->programs->getUrl('thumb') }}">
                                 </a>
                             @endif
@@ -89,22 +92,49 @@
                         </th>
                         <td>
                             @if($header->cooperation)
-                                <a href="{{ $header->cooperation->getUrl() }}" target="_blank" style="display: inline-block">
+                                <a href="{{ $header->cooperation->getUrl() }}" target="_blank"
+                                   style="display: inline-block">
                                     <img src="{{ $header->cooperation->getUrl('thumb') }}">
                                 </a>
                             @endif
                         </td>
                     </tr>
-                </tbody>
-            </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.headers.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
+                    <tr>
+                        <th>
+                            {{ 'Branches' }}
+                        </th>
+                        <td>
+                            @if($header->branches)
+                                <a href="{{ $header->branches->getUrl() }}" target="_blank"
+                                   style="display: inline-block">
+                                    <img src="{{ $header->branches->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ 'Contact' }}
+                        </th>
+                        <td>
+                            @if($header->contact)
+                                <a href="{{ $header->contact->getUrl() }}" target="_blank"
+                                   style="display: inline-block">
+                                    <img src="{{ $header->contact->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <a class="btn btn-default" href="{{ route('admin.headers.index') }}">
+                        {{ trans('global.back_to_list') }}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 

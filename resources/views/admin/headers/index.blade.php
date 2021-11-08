@@ -35,6 +35,13 @@
                         <th>
                             {{ trans('cruds.header.fields.cooperation') }}
                         </th>
+
+                        <th>
+                            {{ 'Branches' }}
+                        </th>
+                        <th>
+                            {{ 'Contact' }}
+                        </th>
                         <th>
                             &nbsp;
                         </th>
@@ -91,6 +98,21 @@
                                     </a>
                                 @endif
                             </td>
+
+                            <td>
+                                @if($header->branches)
+                                    <a href="{{ $header->branches->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $header->branches->getUrl('thumb') }}">
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if($header->contact)
+                                    <a href="{{ $header->contact->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $header->contact->getUrl('thumb') }}">
+                                    </a>
+                                @endif
+                            </td>
                             <td>
                                 @can('header_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.headers.show', $header->id) }}">
@@ -123,7 +145,7 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-  
+
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
     order: [[ 1, 'asc' ]],
@@ -134,7 +156,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

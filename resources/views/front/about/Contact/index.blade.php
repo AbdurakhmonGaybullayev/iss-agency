@@ -2,7 +2,7 @@
 @section('main')
 
     <!-- breadcrumb start -->
-    <div class="breadcrumb-area bg-overlay" style="background-image:url({{\App\Models\Header::first()->about_us->getUrl()}}); background-size: cover;
+    <div class="breadcrumb-area bg-overlay" style="background-image:url({{\App\Models\Header::first()->contact->getUrl()}}); background-size: cover;
         background-position: center;">
         <div class="container">
             <div class="breadcrumb-inner">

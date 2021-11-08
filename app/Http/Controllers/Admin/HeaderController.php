@@ -101,6 +101,28 @@ class HeaderController extends Controller
             $header->cooperation->delete();
         }
 
+        if ($request->input('contact', false)) {
+            if (!$header->contact || $request->input('contact') !== $header->contact->file_name) {
+                if ($header->contact) {
+                    $header->contact->delete();
+                }
+                $header->addMedia(storage_path('tmp/uploads/' . basename($request->input('contact'))))->toMediaCollection('contact');
+            }
+        } elseif ($header->contact) {
+            $header->contact->delete();
+        }
+
+        if ($request->input('branches', false)) {
+            if (!$header->branches || $request->input('branches') !== $header->branches->file_name) {
+                if ($header->branches) {
+                    $header->branches->delete();
+                }
+                $header->addMedia(storage_path('tmp/uploads/' . basename($request->input('branches'))))->toMediaCollection('branches');
+            }
+        } elseif ($header->branches) {
+            $header->branches->delete();
+        }
+
         return redirect()->route('admin.headers.index');
     }
 

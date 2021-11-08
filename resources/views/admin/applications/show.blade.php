@@ -28,17 +28,17 @@
                             {{ trans('cruds.application.fields.user') }}
                         </th>
                         <td>
-                            {{ $application->user->name ?? '' }}
+                            {{ $application->first_name ?? '' }} {{ $application->last_name ?? '' }}
                         </td>
                     </tr>
+
+
                     <tr>
                         <th>
-                            {{ trans('cruds.application.fields.certificates') }}
+                            {{ trans('cruds.application.fields.message') }}
                         </th>
                         <td>
-                            @foreach($application->certificates as $key => $certificates)
-                                <span class="label label-info">{{ $certificates->name }}</span>
-                            @endforeach
+                            {{ $application->message }}
                         </td>
                     </tr>
                     <tr>
@@ -48,14 +48,24 @@
                         <td>
                             <input type="checkbox" disabled="disabled" {{ $application->certificate_status ? 'checked' : '' }}>
                         </td>
+
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.application.fields.message') }}
+                            {{ 'Status' }}
                         </th>
                         <td>
-                            {{ $application->message }}
+                            <input type="checkbox"
+                                   disabled="disabled" {{ $application->status ? 'checked' : '' }}>
                         </td>
+
+                        @php
+                            if($application->status == 0){
+                            $application = \App\Models\Application::where('id',$application->id)->first();
+                            $application->status = 1;
+                            $application->save();
+                        }
+                        @endphp
                     </tr>
                 </tbody>
             </table>

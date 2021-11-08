@@ -37,7 +37,7 @@
                 <div class="col-md-4">
                     <div class="single-intro-inner style-thumb text-center">
                         <div class="thumb">
-                            <img src="{{asset('front/assets/img/intro/'.($home_direction_section->number+3).'.png')}}" alt="img">
+                            <img src="{{$home_direction_section->image->getUrl()}}" alt="img">
                         </div>
                         <div class="details">
                             <h5>{{$home_direction_section['name_'.$locale]}}</h5>

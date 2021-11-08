@@ -22,10 +22,15 @@
                         </th>
 
                         <th>
-                            {{ trans('cruds.application.fields.certificates') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.application.fields.certificate_status') }}
+                        </th>
+
+                        <th>
+                            {{ 'Status' }}
+                        </th>
+
+                        <th>
+                            {{ "Sent at" }}
                         </th>
                         <th>
                             &nbsp;
@@ -48,14 +53,7 @@
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
-                        <td>
-                            <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($certificates as $key => $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                        </td>
+
                         <td>
                         </td>
                         <td>
@@ -72,17 +70,17 @@
                                 {{ $application->id ?? '' }}
                             </td>
                             <td>
-                                {{ $application->user->name ?? '' }}
+                                {{ $application->first_name ?? '' }} {{ $application->last_name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $application->certificate_status ? 'Yes' : 'No' }}
+                            </td>
+                            <td>
+                                {{ $application->status ? 'Read' : 'Unread' }}
                             </td>
 
                             <td>
-                                @foreach($application->certificates as $key => $item)
-                                    <span class="badge badge-info">{{ $item->name }}</span>
-                                @endforeach
-                            </td>
-                            <td>
-                                <span style="display:none">{{ $application->certificate_status ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $application->certificate_status ? 'checked' : '' }}>
+                                {{ $application->created_at ?? '' }}
                             </td>
                             <td>
                                 @can('application_show')

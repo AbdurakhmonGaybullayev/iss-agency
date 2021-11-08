@@ -43,6 +43,7 @@ Route::prefix('/{lang}')->group(function () {
 
     Route::get('/cooperation',function (){
         return view('front.about.Cooperation.index',[
+            'cooperation_text'=>\App\Models\CooperationOfferText::first(),
             'contact'=>\App\Models\Contact::where('type',1)->first(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),

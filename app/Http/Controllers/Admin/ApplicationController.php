@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyApplicationRequest;
 use App\Models\Application;
-use App\Models\Certificate;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
@@ -17,20 +16,18 @@ class ApplicationController extends Controller
     {
         abort_if(Gate::denies('application_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $applications = Application::with(['user', 'certificates'])->get();
+        $applications = Application::with(['user'])->get();
 
         $users = User::get();
 
-        $certificates = Certificate::get();
-
-        return view('admin.applications.index', compact('applications', 'users', 'certificates'));
-    }z
+        return view('admin.applications.index', compact('applications', 'users'));
+    }
 
     public function show(Application $application)
     {
         abort_if(Gate::denies('application_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $application->load('user', 'certificates');
+        $application->load('user');
 
         return view('admin.applications.show', compact('application'));
     }

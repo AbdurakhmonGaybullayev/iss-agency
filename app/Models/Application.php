@@ -22,6 +22,7 @@ class Application extends Model
         'user_id',
         'certificate_status',
         'message',
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -30,11 +31,6 @@ class Application extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function certificates()
-    {
-        return $this->belongsToMany(Certificate::class);
     }
 
     protected function serializeDate(DateTimeInterface $date)

@@ -35,6 +35,8 @@ class Header extends Model implements HasMedia
         'programs',
         'faq',
         'cooperation',
+        'contact',
+        'branches',
     ];
 
     public function registerMediaConversions(Media $media = null): void
@@ -46,6 +48,18 @@ class Header extends Model implements HasMedia
     public function getAboutUsAttribute()
     {
         $file = $this->getMedia('about_us')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+
+        return $file;
+    }
+
+    public function getContactAttribute()
+    {
+        $file = $this->getMedia('contact')->last();
         if ($file) {
             $file->url       = $file->getUrl();
             $file->thumbnail = $file->getUrl('thumb');

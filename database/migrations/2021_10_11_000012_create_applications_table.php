@@ -16,6 +16,7 @@ class CreateApplicationsTable extends Migration
             $table->boolean('certificate_status')->default(0);
             $table->string('subject');
             $table->longText('message');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

@@ -24,8 +24,8 @@
                 <div class="col-lg-12 pd-bottom-30">
                     <div class="section-title mb-0" style="padding-bottom: 20px">
                         <h6 class="sub-title right-line">{{__('Get in touch')}}</h6>
-                        <h2 class="title">{{__('Fill the form')}}</h2>
-                        <p class="content pb-3">Biz hamkorlarimiz bilan muntazam ravishda barcha muloqot usullar orqali aloqadamiz va ular bilan muvaffaqiyatli hamkorlikni rivojlantirib kelayabmiz. Biz sizning savollar va fikr mulohazalaringizga javob berishga doimo tayyormiz. Siz hozirgi kundagi hamkorimizmisiz yoki kelajakdagi bo'lajak hamkormi, biz siz bilan hamkorlik qilishdan doimo hursandmiz.
+                        <h3 class="title">{{$cooperation_text['title_'.$locale]}}</h3>
+                        <p class="content pb-3">{{$cooperation_text['offer_'.$locale]}}
                     </div>
                 </div>
 
