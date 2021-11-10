@@ -60,7 +60,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="single-input-inner style-bg-border">
-                                    <input type="tel" name="position" value="{{old('position')}}" placeholder="Occupation">
+                                    <input type="tel" name="position" value="{{old('position')}}" placeholder="{{__('Occupation')}}">
                                     @error('position')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
