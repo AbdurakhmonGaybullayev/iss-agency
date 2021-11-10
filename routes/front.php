@@ -176,6 +176,11 @@ Route::prefix('/{lang}')->group(function () {
     })->name('about');
 
     Route::get('sign-up',function (){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
+
        return view('front.registration.sign-up.index',[
            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
@@ -183,10 +188,32 @@ Route::prefix('/{lang}')->group(function () {
            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
            'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
            'foradmission'=>null,
+           'forcoopeartion'=>1,
        ]);
     })->name('sign-up');
 
+    Route::get('sign-up/cooperation', function () {
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
+
+        return view('front.registration.sign-up.index', [
+            'locale' => \Illuminate\Support\Facades\App::getLocale(),
+            'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.id', 'programms.name_uz', 'programms.name_ru', 'programms.name_en')->orderBy('programms.id', 'asc')->get()->unique(),
+            'contact' => \App\Models\Contact::where('type', 1)->first(),
+            'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
+            'branches' => \App\Models\Branch::orderBy('name_uz', 'desc')->get(),
+            'foradmission'=>null,
+            'forcooperation'=>1,
+        ]);
+    })->name('sign-up-for-cooperation');
+
     Route::get('sign-up/{foradmission}',function ($lang,$foradmission = null){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
 
         $university = \App\Models\University::where('id',$foradmission)->select('id')->first();
 
@@ -199,28 +226,17 @@ Route::prefix('/{lang}')->group(function () {
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
             'contact'=>\App\Models\Contact::where('type',1)->first(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
-            'Branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
+            'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
             'foradmission'=>$foradmission,
+            'forcooperation'=>null,
         ]);
     })->name('sign-up-for-admission');
 
     Route::post('sign-up',[\App\Http\Controllers\Front\RegistrationController::class,'sign_up'])->name('sign-up');
 
     Route::get('sign-in',function (){
-        return view('front.registration.sign-in.index',[
-            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
-            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
-            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
-            'foradmission'=>null,
-        ]);
-    })->name('sign-in');
 
-    Route::get('sign-in/{foradmission}',function ($lang, $foradmission = null){
-
-        $university = \App\Models\University::where('id',$foradmission)->select('id')->first();
-
-        if ($university == null){
+        if (\Illuminate\Support\Facades\Auth::user()){
             return abort('404');
         }
 
@@ -229,7 +245,47 @@ Route::prefix('/{lang}')->group(function () {
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
             'contact'=>\App\Models\Contact::where('type',1)->first(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
-            'foradmission'=>$foradmission,
+            'foradmission'=>null,
+            'forcooperation'=>null,
+        ]);
+    })->name('sign-in');
+
+    Route::get('sign-in/cooperation',function (){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
+
+        return view('front.registration.sign-in.index',[
+            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
+            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+            'foradmission'=>null,
+            'forcooperation'=>1,
+        ]);
+    })->name('sign-in-for-cooperation');
+
+    Route::get('sign-in/{foradmission}', function ($lang, $foradmission = null) {
+
+        if (\Illuminate\Support\Facades\Auth::user()) {
+            return abort('404');
+        }
+
+        $university = \App\Models\University::where('id', $foradmission)->select('id')->first();
+
+        if ($university == null) {
+            return abort('404');
+        }
+
+        return view('front.registration.sign-in.index', [
+            'locale' => \Illuminate\Support\Facades\App::getLocale(),
+            'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.id', 'programms.name_uz', 'programms.name_ru', 'programms.name_en')->orderBy('programms.id', 'asc')->get()->unique(),
+            'contact' => \App\Models\Contact::where('type', 1)->first(),
+            'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
+            'foradmission' => $foradmission,
+            'forcooperation'=>null,
+
         ]);
     })->name('sign-in-for-admission');
 
@@ -306,4 +362,155 @@ Route::prefix('/{lang}')->group(function () {
 
     Route::get('/search',[\App\Http\Controllers\Front\FrontController::class,'search'])->name('search');
 
+
+
+    Route::get('/dashboard',function (){
+
+        if (!\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
+
+        return view('front.dashboard.profile.index',[
+        'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+        'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
+        'contact'=>\App\Models\Contact::where('type',1)->first(),
+        'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+        'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
+    ]); })->name('dashboard');
+
+    Route::get('/dashboard/profile-edit',function (){
+
+        if (!\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
+
+        return view('front.dashboard.profile-edit.index',[
+            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
+            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+            'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
+        ]);
+    })->name('profile-edit');
+
+    Route::get('/dashboard/password-edit',function (){
+
+        if (!\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
+
+        return view('front.dashboard.password-edit.index',[
+            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
+            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+            'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
+        ]);
+    })->name('password-edit');
+
+    Route::post('/dashboard/password-edit',[\App\Http\Controllers\Front\FrontController::class,'password_edit'])->name('password-edit');
+
+    Route::post('/dashboard/profile-edit',[\App\Http\Controllers\Front\FrontController::class,'profile_edit'])->name('profile-edit');
+
+    Route::get('/dashboard/my-documents',function (){
+
+        if (!\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
+
+        return view('front.dashboard.my-documents.index',[
+            'documents'=>\App\Models\Document::where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at','desc')->paginate(9),
+            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
+            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
+            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+        ]);
+    })->name('my-documents');
+
+    Route::get('/dashboard/my-documents/{id}', function ($lang,$id) {
+
+        $document = \App\Models\Document::where('user_id', \Illuminate\Support\Facades\Auth::user()->id)->where('id', $id)->first();
+
+        if (!\Illuminate\Support\Facades\Auth::user() || !$document) {
+            return abort('404');
+        }
+
+        return view('front.dashboard.my-documents.show', [
+            'document' => $document,
+            'contact' => \App\Models\Contact::where('type', 1)->first(),
+            'countries' => \App\Models\Country::join('universities', 'universities.country_id', 'countries.id')->select('countries.*')->get()->unique(),
+            'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
+            'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
+            'locale' => \Illuminate\Support\Facades\App::getLocale(),
+        ]);
+    })->name('my-documents-show');
+
+    Route::get('/dashboard/my-messages',function (){
+
+        if (!\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
+
+        return view('front.dashboard.my-messages.index',[
+            'applications'=>\App\Models\Application::where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at','desc')->paginate(9),
+            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
+            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
+            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+        ]);
+    })->name('my-messages');
+
+    Route::get('/dashboard/my-messages/{id}', function ($lang,$id) {
+
+        $application = \App\Models\Application::where('user_id', \Illuminate\Support\Facades\Auth::user()->id)->where('id', $id)->first();
+
+        if (!\Illuminate\Support\Facades\Auth::user() || !$application) {
+            return abort('404');
+        }
+
+        return view('front.dashboard.my-messages.show', [
+            'application' => $application,
+            'contact' => \App\Models\Contact::where('type', 1)->first(),
+            'countries' => \App\Models\Country::join('universities', 'universities.country_id', 'countries.id')->select('countries.*')->get()->unique(),
+            'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
+            'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
+            'locale' => \Illuminate\Support\Facades\App::getLocale(),
+        ]);
+    })->name('my-messages-show');
+
+    Route::get('/dashboard/my-offers',function (){
+
+        if (!\Illuminate\Support\Facades\Auth::user()){
+            return abort('404');
+        }
+
+        return view('front.dashboard.my-offers.index',[
+            'offers'=>\App\Models\Cooperation::where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at','desc')->paginate(9),
+            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
+            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
+            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+        ]);
+    })->name('my-offers');
+
+    Route::get('/dashboard/my-offers/{id}',function ($lang,$id){
+
+        $offer = \App\Models\Cooperation::where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->where('id',$id)->first();
+
+        if (!\Illuminate\Support\Facades\Auth::user() || !$offer){
+            return abort('404');
+        }
+
+        return view('front.dashboard.my-offers.show',[
+            'offer'=>$offer,
+            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
+            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
+            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+        ]);
+    })->name('my-offers-show');
 });

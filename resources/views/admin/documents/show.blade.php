@@ -103,6 +103,14 @@
 
                     <tr>
                         <th>
+                            {{ 'Programm' }}
+                        </th>
+                        <td>
+                            {{ $document->programm->name_uz ?? '' }}
+                        </td>
+                    </tr>
+                     <tr>
+                        <th>
                             {{ trans('cruds.document.fields.direction') }}
                         </th>
                         <td>

@@ -13,6 +13,8 @@ class AddRelationshipFieldsToDocumentsTable extends Migration
             $table->foreign('user_id', 'user_fk_4937980')->references('id')->on('users');
             $table->unsignedBigInteger('university_id')->nullable();
             $table->foreign('university_id', 'university_fk_4937981')->references('id')->on('universities');
+            $table->unsignedBigInteger('programm_id')->nullable();
+            $table->foreign('programm_id')->references('id')->on('programms');
             $table->unsignedBigInteger('direction_id')->nullable();
             $table->foreign('direction_id', 'direction_fk_4937986')->references('id')->on('directions');
         });

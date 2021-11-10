@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyDocumentRequest;
 use App\Models\Certificate;
 use App\Models\Direction;
 use App\Models\Document;
+use App\Models\Programm;
 use App\Models\University;
 use App\Models\User;
 use Gate;
@@ -23,7 +24,7 @@ class DocumentController extends Controller
     {
         abort_if(Gate::denies('document_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $documents = Document::with(['user', 'university', 'certificates', 'direction', 'media'])->get();
+        $documents = Document::with(['user', 'university', 'certificates', 'programm', 'direction', 'media'])->orderBy('created_at','desc')->get();
 
         $users = User::get();
 
@@ -31,16 +32,18 @@ class DocumentController extends Controller
 
         $certificates = Certificate::get();
 
+        $programms = Programm::get();
+
         $directions = Direction::get();
 
-        return view('admin.documents.index', compact('documents', 'users', 'universities', 'certificates', 'directions'));
+        return view('admin.documents.index', compact('documents', 'users', 'universities', 'certificates', 'programms', 'directions'));
     }
 
     public function show(Document $document)
     {
         abort_if(Gate::denies('document_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $document->load('user', 'university', 'certificates', 'direction');
+        $document->load('user', 'university', 'certificates', 'programm', 'direction');
 
         return view('admin.documents.show', compact('document'));
     }

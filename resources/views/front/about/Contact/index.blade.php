@@ -1,6 +1,27 @@
 @extends('layouts.front.master-2')
 @section('main')
 
+    <!-- Button trigger modal -->
+    <button style="display: none;" type="button" id="modal-alert-button" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModalCenter">
+        Launch demo modal
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="margin: 0" id="exampleModalLongTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- breadcrumb start -->
     <div class="breadcrumb-area bg-overlay" style="background-image:url({{\App\Models\Header::first()->contact->getUrl()}}); background-size: cover;
         background-position: center;">
@@ -250,16 +271,13 @@
 
         });
 
-        @if(session()->has('success'))
-
-        alert('{{__('Message sent successfully!')}}');
-
-        @endif
-        @if(session()->has('fail'))
-
-        alert('{{__('Error occured in sending message! Plase try again!')}}');
-
-        @endif
+        @php
+            if (session()->has('success')){
+                  echo "document.getElementById('modal-alert-button').click(); document.getElementById('exampleModalLongTitle').style.color = 'green'; document.getElementById('exampleModalLongTitle').innerHTML = '".__('Message sent successfully!')."';";
+            }elseif (session()->has('fail')){
+                  echo "document.getElementById('modal-alert-button').click(); document.getElementById('exampleModalLongTitle').style.color = 'red'; document.getElementById('exampleModalLongTitle').innerHTML = '".__('Error occured in sending message! Plase try again!')."';";
+            }
+        @endphp
     </script>
 
 @endsection

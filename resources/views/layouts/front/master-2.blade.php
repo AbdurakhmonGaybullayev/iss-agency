@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ISS agency</title>
     <link rel=icon href="{{asset('front/assets/img/logo-iss-favicon.png')}}" sizes="20x20" type="image/png">
@@ -12,6 +12,35 @@
     <link rel="stylesheet" href="{{asset('front/assets/css/vendor.css')}}">
     <link rel="stylesheet" href="{{asset('front/assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('front/assets/css/responsive.css')}}">
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+
+        .dropdown-content p {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .dropdown-content a {
+            margin: 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
     @yield('css')
 </head>
 <body>
@@ -67,14 +96,20 @@
                                 $currentName = \Illuminate\Support\Facades\Route::currentRouteName();
                             @endphp
 
-                            <a class="current-lang" onclick="langSwitch()"><img style="width: 17px; margin-top: -1px" src="{{asset('front/assets/img/flags/flag'.$locale.'.svg')}}" alt=""><p style="display: inline; font-size: 12px">
+                            <a class="current-lang" onclick="langSwitch()"><img style="width: 17px; margin-top: -1px"
+                                                                                src="{{asset('front/assets/img/flags/flag'.$locale.'.svg')}}"
+                                                                                alt="">
+                                <p style="display: inline; font-size: 12px">
                                     {{strtoupper($locale)}}</p></a>
                             @php
                                 $languages = ['uz','ru','en'];
                             @endphp
                             @foreach($languages as $language)
                                 @if($language != $locale)
-                                    <a class="next-lang" href="{{route('home',$language)}}"><img style="width: 17px; margin-top: -1px;" src="{{asset('front/assets/img/flags/flag'.$language.'.svg')}}" alt=""><p style="display: inline; font-size: 12px">
+                                    <a class="next-lang" href="{{route('home',$language)}}"><img
+                                            style="width: 17px; margin-top: -1px;"
+                                            src="{{asset('front/assets/img/flags/flag'.$language.'.svg')}}" alt="">
+                                        <p style="display: inline; font-size: 12px">
                                             {{strtoupper($language)}}</p></a>
                                 @endif
                             @endforeach
@@ -94,7 +129,8 @@
                 </button>
             </div>
             <div class="logo">
-                <a href="{{route('home',$locale)}}"><img src="{{asset('front/assets/img/logo-iss-2.png')}}" alt="img"></a>
+                <a href="{{route('home',$locale)}}"><img src="{{asset('front/assets/img/logo-iss-2.png')}}"
+                                                         alt="img"></a>
             </div>
             <div class="nav-right-part nav-right-part-mobile">
                 @guest()
@@ -102,10 +138,12 @@
                     <a class="btn btn-base" href="{{route('sign-up',$locale)}}">{{__('Register')}}</a>
                 @endguest
                 @auth()
-{{--                    <a class="search-bar" title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}" href="#"><i class="fa fa-user"></i></a>--}}
+                    <a class="dashboard"
+                       title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"
+                       href="{{route('dashboard',$locale)}}"><i class="fa fa-user"></i></a>
                     <a class="logout" href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
                 @endauth
-                    <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
+                <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
             </div>
             <div class="collapse navbar-collapse" id="edumint_main_menu">
                 <ul class="navbar-nav menu-open">
@@ -140,10 +178,20 @@
                     <a class="btn btn-base" href="{{route('sign-up',$locale)}}">{{__('Register')}}</a>
                 @endguest
                 @auth()
-{{--                    <a class="search-bar" title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}" href="#"><i class="fa fa-user"></i></a>--}}
+                    <div class="dropdown">
+                        <a class="dashboard"
+                           title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"
+                           href="{{route('dashboard',$locale)}}"><i class="fa fa-user"></i></a>
+                        <div class="dropdown-content">
+                            <a href="{{route('dashboard',$locale)}}"><p>{{__("My Profile")}}</p></a>
+                            <a href="{{route('my-documents',$locale)}}"><p>{{__("My Documents")}}</p></a>
+                            <a href="{{route('my-messages',$locale)}}"><p>{{__("My Applications")}}</p></a>
+                            <a href="{{route('my-offers',$locale)}}"><p>{{__("My Offers")}}</p></a>
+                        </div>
+                    </div>
                     <a class="logout" href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
                 @endauth
-                    <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
+                <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
             </div>
             <div class="hidden-div"></div>
             <div style="margin-top: 10px" class="wrapper-large-menu">
@@ -155,10 +203,10 @@
                             </div>
                             <ul class="category-list">
                                 @foreach($programs as $program)
-                                <li class="item">
-                                    <a href="{{route('programs',$locale).'?program='.$program->id}}"
-                                       class="link active">{{$program['name_'.$locale]}} </a>                                                  </a>
-                                </li>
+                                    <li class="item">
+                                        <a href="{{route('programs',$locale).'?program='.$program->id}}"
+                                           class="link active">{{$program['name_'.$locale]}} </a>                                                  </a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -170,17 +218,19 @@
                             </div>
                             <div class="row">
                                 @foreach(\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->orderBy('countries.name_en','asc')->get()->unique() as $country)
-                                <div class="col-md-3">
-                                    <a href="{{route('programs',$locale).'?country='.$country->id}}" class="large-menu-item">
-                                        <img src="{{$country->country_logo->getUrl()}}" alt="">
-                                        <span class="title">
+                                    <div class="col-md-3">
+                                        <a href="{{route('programs',$locale).'?country='.$country->id}}"
+                                           class="large-menu-item">
+                                            <img src="{{$country->country_logo->getUrl()}}" alt="">
+                                            <span class="title">
                                                     {{$country['name_'.$locale]}}                                                </span>
-                                    </a>
-                                </div>
+                                        </a>
+                                    </div>
                                 @endforeach
                                 <div class="col-md-12">
                                     <a href="{{route('programs',$locale)}}" class="large-menu-item">
-                                        <span class="title">{{__('All Programs')}}</span>                                                </span>
+                                        <span
+                                            class="title">{{__('All Programs')}}</span>                                                </span>
                                     </a>
                                 </div>
                             </div>
@@ -202,7 +252,8 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="widget widget_about text-center">
-                        <a href="{{route('home',$locale)}}"><img src="{{asset('front/assets/img/logo-iss-2.png')}}" alt="img"></a>
+                        <a href="{{route('home',$locale)}}"><img src="{{asset('front/assets/img/logo-iss-2.png')}}"
+                                                                 alt="img"></a>
                         <div class="details">
                             <p>{{\App\Models\AboutUs::first()['footer_text_'.$locale]}}</p>
                             <ul class="social-media">
@@ -249,7 +300,9 @@
                         <h4 class="widget-title">{{__('Programs')}}</h4>
                         <ul>
                             @foreach($programs->take(5) as $program)
-                                <li><a href="{{route('programs',$locale).'$?program='.$program->id}}">{{$program['name_'.$locale]}}</a></li>
+                                <li>
+                                    <a href="{{route('programs',$locale).'$?program='.$program->id}}">{{$program['name_'.$locale]}}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -292,15 +345,16 @@
 <!-- main js  -->
 <script src="{{asset('front/assets/js/main.js')}}"></script>
 <script>
-let boolean = false;
-    function langSwitch(){
+    let boolean = false;
+
+    function langSwitch() {
         var lang1 = document.getElementsByClassName('next-lang')[0];
         var lang2 = document.getElementsByClassName('next-lang')[1];
-        if (boolean == false){
+        if (boolean == false) {
             lang1.style.display = 'inline';
             lang2.style.display = 'inline';
             boolean = true;
-        }else if(boolean == true){
+        } else if (boolean == true) {
             lang1.style.display = 'none';
             lang2.style.display = 'none';
             boolean = false;

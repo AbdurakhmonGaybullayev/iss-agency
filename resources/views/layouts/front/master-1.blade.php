@@ -42,6 +42,58 @@
 <div class="body-overlay" id="body-overlay"></div>
 
 <!-- navbar start -->
+<div style="background: #002147" class="navbar-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 text-md-left text-center">
+                <ul>
+                    <li class="social-area"><p>
+                            <i class="fa fa-map-marker"></i> {{isset($contact['address_'.$locale])?$contact['address_'.$locale]:''}}
+                        </p></li>
+                    <li><p><i class="fa fa-envelope-o"></i> {{isset($contact['email'])?$contact['email']:''}}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="topbar-right text-md-right text-center">
+                    <li class="social-area">
+                        <a href="{{isset($contact['instagram'])?$contact['instagram']:''}}"><i
+                                class="fa fa-instagram" aria-hidden="true"></i></a>
+                        <a href="{{isset($contact['telegram'])?$contact['telegram']:''}}"><i class="fa fa-telegram"
+                                                                                             aria-hidden="true"></i></a>
+                        <a href="{{isset($contact['facebook'])?$contact['facebook']:''}}"><i class="fa fa-facebook"
+                                                                                             aria-hidden="true"></i></a>
+
+                        @php
+                            $currentName = \Illuminate\Support\Facades\Route::currentRouteName();
+                        @endphp
+
+                        <a class="current-lang" onclick="langSwitch()"><img style="width: 17px; margin-top: -1px"
+                                                                            src="{{asset('front/assets/img/flags/flag'.$locale.'.svg')}}"
+                                                                            alt="">
+                            <p style="display: inline; font-size: 12px">
+                                {{strtoupper($locale)}}</p></a>
+                        @php
+                            $languages = ['uz','ru','en'];
+                        @endphp
+                        @foreach($languages as $language)
+                            @if($language != $locale)
+                                <a class="next-lang" href="{{route('home',$language)}}"><img
+                                        style="width: 17px; margin-top: -1px"
+                                        src="{{asset('front/assets/img/flags/flag'.$language.'.svg')}}" alt="">
+                                    <p style="display: inline; font-size: 12px">
+                                        {{strtoupper($language)}}</p></a>
+                            @endif
+                        @endforeach
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="navbar-area">
     <!-- navbar top start -->
     <div class="navbar-top">
@@ -113,10 +165,10 @@
                     <a class="btn btn-base" href="{{route('sign-up',$locale)}}">{{__('Register')}}</a>
                 @endguest
                 @auth()
-{{--                    <a class="search-bar"--}}
-{{--                       title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"--}}
-{{--                       href="#"><i class="fa fa-user"></i></a>--}}
-                    <a class="logout" ><i class="fa fa-sign-out"></i></a>
+                    <a class="dashboard border-home"
+                       title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"
+                       href="{{route('dashboard',$locale)}}"><i class="fa fa-user"></i></a>
+                    <a class="logout"  href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
                 @endauth
                 <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
             </div>
@@ -154,10 +206,10 @@
                     <a class="btn btn-base" href="{{route('sign-up',$locale)}}">{{__('Register')}}</a>
                 @endguest
                 @auth()
-{{--                    <a class="search-bar"--}}
-{{--                       title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"--}}
-{{--                       href="#"><i class="fa fa-user"></i></a>--}}
-                    <a class="logout" href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
+                    <a class="dashboard border-home"
+                       title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"
+                       href="{{route('dashboard',$locale)}}"><i class="fa fa-user"></i></a>
+                    <a class="logout"  href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
                 @endauth
                 <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
             </div>
