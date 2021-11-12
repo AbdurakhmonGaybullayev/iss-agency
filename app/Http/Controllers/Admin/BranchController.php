@@ -19,14 +19,14 @@ class BranchController extends Controller
 
         $branches = Branch::all();
 
-        return view('admin.Branches.index', compact('branches'));
+        return view('admin.branches.index', compact('branches'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('branch_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.Branches.create');
+        return view('admin.branches.create');
     }
 
     public function store(StoreBranchRequest $request)
@@ -54,7 +54,7 @@ class BranchController extends Controller
     {
         abort_if(Gate::denies('branch_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.Branches.show', compact('branch'));
+        return view('admin.branches.show', compact('branch'));
     }
 
     public function destroy(Branch $branch)

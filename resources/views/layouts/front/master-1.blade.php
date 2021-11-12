@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+@php
+
+    use Illuminate\Support\Facades\Session;
+
+@endphp
+    <!DOCTYPE html>
 <html lang="zxx">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +21,26 @@
 
 </head>
 <body>
+<!-- Button trigger modal -->
+<button style="display: none;" type="button" id="modal-alert-button" class="btn btn-primary" data-toggle="modal"
+        data-target="#exampleModalCenter">
+    Launch demo modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div id="modal-header" class="modal-header">
+                <h5 style="margin: 0" id="exampleModalLongTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
+        </div>
+    </div>
+</div>
 <!-- preloader area start -->
 <div class="preloader" id="preloader">
     <div class="preloader-inner">
@@ -42,58 +66,32 @@
 <div class="body-overlay" id="body-overlay"></div>
 
 <!-- navbar start -->
-<div style="background: #002147" class="navbar-top">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 text-md-left text-center">
-                <ul>
-                    <li class="social-area"><p>
-                            <i class="fa fa-map-marker"></i> {{isset($contact['address_'.$locale])?$contact['address_'.$locale]:''}}
-                        </p></li>
-                    <li><p><i class="fa fa-envelope-o"></i> {{isset($contact['email'])?$contact['email']:''}}</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <ul class="topbar-right text-md-right text-center">
-                    <li class="social-area">
-                        <a href="{{isset($contact['instagram'])?$contact['instagram']:''}}"><i
-                                class="fa fa-instagram" aria-hidden="true"></i></a>
-                        <a href="{{isset($contact['telegram'])?$contact['telegram']:''}}"><i class="fa fa-telegram"
-                                                                                             aria-hidden="true"></i></a>
-                        <a href="{{isset($contact['facebook'])?$contact['facebook']:''}}"><i class="fa fa-facebook"
-                                                                                             aria-hidden="true"></i></a>
+@guest()
+    @if(Session::get('main_branch') == null)
+        <div style="background: #002147" class="navbar-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 text-md-left text-center">
+                        <ul>
+                            <li class="social-area"><p style="color: white">
+                                    <i class="fa fa-map-marker"></i> {{$branch['name_'.$locale] . ', '}} @php $city = explode('-', \App\Models\Branch::REGION_SELECT[$branch->region]['city']); @endphp @if($locale == 'uz'){{$city[0]}}@elseif($locale == 'ru') {{$city[1]}} @elseif($locale == 'en') {{$city[2]}} @endif {{__('is convenient for you?')}}
+                                </p>
+                            </li>
+                            <li><a class="btn btn-info" style="line-height: 25px; height: 25px; padding: 0 25px"
+                                   href="{{route('set-branch',['lang'=>$locale,'id'=>'main'])}}">{{__("Ha")}}</a>
+                            </li>
+                            <li onclick="branchesList()"><a class="btn btn-base" style="line-height: 25px; height: 25px; padding: 0 25px"
+                                   >{{__("Choose another branch")}}</a>
+                            </li>
 
-                        @php
-                            $currentName = \Illuminate\Support\Facades\Route::currentRouteName();
-                        @endphp
 
-                        <a class="current-lang" onclick="langSwitch()"><img style="width: 17px; margin-top: -1px"
-                                                                            src="{{asset('front/assets/img/flags/flag'.$locale.'.svg')}}"
-                                                                            alt="">
-                            <p style="display: inline; font-size: 12px">
-                                {{strtoupper($locale)}}</p></a>
-                        @php
-                            $languages = ['uz','ru','en'];
-                        @endphp
-                        @foreach($languages as $language)
-                            @if($language != $locale)
-                                <a class="next-lang" href="{{route('home',$language)}}"><img
-                                        style="width: 17px; margin-top: -1px"
-                                        src="{{asset('front/assets/img/flags/flag'.$language.'.svg')}}" alt="">
-                                    <p style="display: inline; font-size: 12px">
-                                        {{strtoupper($language)}}</p></a>
-                            @endif
-                        @endforeach
-
-                    </li>
-
-                </ul>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
+    @endif
+@endguest
 <div class="navbar-area">
     <!-- navbar top start -->
     <div class="navbar-top">
@@ -168,7 +166,7 @@
                     <a class="dashboard border-home"
                        title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"
                        href="{{route('dashboard',$locale)}}"><i class="fa fa-user"></i></a>
-                    <a class="logout"  href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
+                    <a class="logout" href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
                 @endauth
                 <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
             </div>
@@ -209,7 +207,7 @@
                     <a class="dashboard border-home"
                        title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"
                        href="{{route('dashboard',$locale)}}"><i class="fa fa-user"></i></a>
-                    <a class="logout"  href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
+                    <a class="logout" href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
                 @endauth
                 <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
             </div>
@@ -412,6 +410,15 @@
         });
     });
 
+    function branchesList(){
+        document.getElementById('modal-alert-button').click();
+        document.getElementById('exampleModalLongTitle').style.color = 'green';
+        var branches = "@php $item = 0 @endphp @foreach($branches as $branch) @php $item = $item + 1; @endphp <a href= '{{route('set-branch',['lang'=>$locale,'id'=>$branch->id])}}'> {{$branch['name_'.$locale]}} @if($item != $branches->count()) </a><hr> @endif @endforeach";
+        document.getElementById('exampleModalLongTitle').style.width = "100%";
+        document.getElementById('exampleModalLongTitle').style.textAlign = "center";
+        document.getElementById('exampleModalLongTitle').innerHTML = branches;
+    }
+
     {{--    @if(session()->has('success'))--}}
 
     {{--    alert('{{__('Welcome').' '.\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name.' '.__('to ISS agency website!'))}}');--}}
@@ -422,6 +429,7 @@
     {{--    alert('{{__('Error occured! Plase try again!')}}');--}}
 
     {{--    @endif--}}
+
 
 </script>
 <script src="//code-ya.jivosite.com/widget/6Y8woH0Xth" async></script>

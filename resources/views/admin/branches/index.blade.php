@@ -90,7 +90,7 @@
                                 {{ $branch->address_uz ?? '' }}
                             </td>
                             <td>
-                                {{ $branch->region ?? '' }}
+                                {{ \App\Models\Branch::REGION_SELECT[$branch->region]['city'] }}
                             </td>
                             <td>
                                 {{ $branch->city ?? '' }}

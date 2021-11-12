@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 Route::prefix('/{lang}')->group(function () {
 
@@ -11,14 +12,35 @@ Route::prefix('/{lang}')->group(function () {
             $user = \Illuminate\Support\Facades\Auth::user();
             $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
         }else{
-            $contact = \App\Models\Contact::where('type',1)->first();
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
         }
+
+        if (Session::get('main_branch') !== null){
+            if (Session::get('main_branch') == 'main'){
+                $branches = \App\Models\Branch::join('contacts','contacts.branch_id','branches.id')->where('contacts.type',0)->select('branches.*','contacts.phone_number')->orderBy('branches.number', 'desc')->get()->unique();
+            }else{
+                $branches = \App\Models\Branch::join('contacts','contacts.branch_id','branches.id')->where('branches.id','!=',Session::get('main_branch'))->select('branches.*','contacts.phone_number')->orderBy('branches.number', 'desc')->get()->unique();
+            }
+        }else{
+            $branches = \App\Models\Branch::join('contacts','contacts.branch_id','branches.id')->where('contacts.type',0)->select('branches.*','contacts.phone_number')->orderBy('branches.number', 'desc')->get()->unique();
+        }
+
 
         return view('front.home.index',[
             'main_header'=>\App\Models\MainHeader::first(),
             'home_direction_sections_1'=>\App\Models\HomeDirectionSection::whereBetween('number', [1, 3])->orderBy('number', 'asc')->get(),
             'home_direction_sections_2'=>\App\Models\HomeDirectionSection::whereBetween('number', [4, 6])->orderBy('number', 'asc')->get(),
             'contact'=>$contact,
+            'branches'=>$branches,
+            'branch' => \App\Models\Branch::where('id',$contact->branch_id)->first(),
             'universities'=>\App\Models\University::where('top',1)->orderBy('number', 'desc')->orderBy('created_at', 'desc')->take(9)->get(),
             'testimonials'=>\App\Models\Testimonial::take(9)->orderBy('created_at', 'desc')->get(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
@@ -31,9 +53,25 @@ Route::prefix('/{lang}')->group(function () {
     })->name('home');
 
     Route::get('/faq',function (){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.about.FAQ.index',[
             'faqs'=>\App\Models\QandA::orderBy('created_at', 'desc')->paginate(9),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
@@ -42,9 +80,25 @@ Route::prefix('/{lang}')->group(function () {
     })->name('faq');
 
     Route::get('/cooperation',function (){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.about.Cooperation.index',[
             'cooperation_text'=>\App\Models\CooperationOfferText::first(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
@@ -63,9 +117,25 @@ Route::prefix('/{lang}')->group(function () {
             }
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
+
         return view('front.gallery.index',[
             'gallery'=>$gallery,
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'testimonials'=>\App\Models\Testimonial::take(9)->orderBy('created_at', 'desc')->get(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
@@ -74,9 +144,26 @@ Route::prefix('/{lang}')->group(function () {
     })->name('gallery');
 
     Route::get('/gallery/{id}',function ($lang,$id){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
+
         return view('front.gallery.details',[
             'album'=>\App\Models\Gallery::where('id',$id)->first(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'testimonials'=>\App\Models\Testimonial::take(9)->orderBy('created_at', 'desc')->get(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
@@ -95,8 +182,25 @@ Route::prefix('/{lang}')->group(function () {
                 return Redirect::back();
             }
         }
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
+
         return view('front.news.index',[
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>$news,
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
@@ -104,9 +208,25 @@ Route::prefix('/{lang}')->group(function () {
     })->name('news');
 
     Route::get('/news/{id}',function ($lang,$id){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         $details = \App\Models\News::where('id',$id)->first();
         return view('front.news.details',[
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'details'=>$details,
             'news'=>\App\Models\News::where('id','!=',$id)->orderBy('created_at', 'desc')->get()->take(3),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
@@ -132,8 +252,23 @@ Route::prefix('/{lang}')->group(function () {
         $universityPrograms = \App\Models\Programm::whereIn('id',$array)->get();
         $universityDirections = \App\Models\Direction::join('direction_university','direction_university.direction_id','directions.id')->where('direction_university.university_id',$id)->join('direction_programm','direction_programm.direction_id','directions.id')->orderBy('direction_programm.programm_id','asc')->select('directions.*','direction_programm.programm_id')->get()->unique();
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.programs.details',[
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->take(3)->get(),
             'university'=>$university,
             'universityPrograms'=>$universityPrograms,
@@ -147,14 +282,37 @@ Route::prefix('/{lang}')->group(function () {
 
     Route::get('/branch',function (){
 
-        $branches = \App\Models\Branch::join('contacts','contacts.branch_id','branches.id')->where('contacts.type',0)->select('branches.*','contacts.phone_number')->orderBy('branches.number', 'desc')->get()->unique();
+        if (Session::get('main_branch') !== null){
+            if (Session::get('main_branch') == 'main'){
+                $branches = \App\Models\Branch::join('contacts','contacts.branch_id','branches.id')->where('contacts.type',0)->select('branches.*','contacts.phone_number')->orderBy('branches.number', 'desc')->get()->unique();
+            }else{
+                $branches = \App\Models\Branch::join('contacts','contacts.branch_id','branches.id')->where('branches.id','!=',Session::get('main_branch'))->select('branches.*','contacts.phone_number')->orderBy('branches.number', 'desc')->get()->unique();
+            }
+        }else{
+            $branches = \App\Models\Branch::join('contacts','contacts.branch_id','branches.id')->where('contacts.type',0)->select('branches.*','contacts.phone_number')->orderBy('branches.number', 'desc')->get()->unique();
+        }
 
         if ($branches->count() == 0){
             return \Illuminate\Support\Facades\Redirect::back();
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.about.Branches.index',[
-            'contact'=>\App\Models\Contact::first(),
+            'contact'=>$contact,
             'branches'=>$branches,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
@@ -163,8 +321,24 @@ Route::prefix('/{lang}')->group(function () {
     })->name('branch');
 
     Route::get('/about',function (){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.about.index',[
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
             'staffs'=>\App\Models\Team::orderBy('number','desc')->get(),
@@ -181,14 +355,29 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
        return view('front.registration.sign-up.index',[
            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-           'contact'=>\App\Models\Contact::where('type',1)->first(),
+           'contact'=>$contact,
            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
            'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
            'foradmission'=>null,
-           'forcoopeartion'=>1,
+           'forcooperation'=>null,
        ]);
     })->name('sign-up');
 
@@ -198,10 +387,25 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.registration.sign-up.index', [
             'locale' => \Illuminate\Support\Facades\App::getLocale(),
             'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.id', 'programms.name_uz', 'programms.name_ru', 'programms.name_en')->orderBy('programms.id', 'asc')->get()->unique(),
-            'contact' => \App\Models\Contact::where('type', 1)->first(),
+            'contact' => $contact,
             'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
             'branches' => \App\Models\Branch::orderBy('name_uz', 'desc')->get(),
             'foradmission'=>null,
@@ -221,10 +425,25 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.registration.sign-up.index',[
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
             'foradmission'=>$foradmission,
@@ -240,10 +459,25 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.registration.sign-in.index',[
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'foradmission'=>null,
             'forcooperation'=>null,
@@ -256,10 +490,25 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.registration.sign-in.index',[
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'foradmission'=>null,
             'forcooperation'=>1,
@@ -278,10 +527,25 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.registration.sign-in.index', [
             'locale' => \Illuminate\Support\Facades\App::getLocale(),
             'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.id', 'programms.name_uz', 'programms.name_ru', 'programms.name_en')->orderBy('programms.id', 'asc')->get()->unique(),
-            'contact' => \App\Models\Contact::where('type', 1)->first(),
+            'contact' => $contact,
             'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
             'foradmission' => $foradmission,
             'forcooperation'=>null,
@@ -301,7 +565,15 @@ Route::prefix('/{lang}')->group(function () {
             $user = \Illuminate\Support\Facades\Auth::user();
             $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
         }else{
-            $contact = \App\Models\Contact::where('type',1)->first();
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
         }
 
         return view('front.about.Contact.index',
@@ -334,10 +606,25 @@ Route::prefix('/{lang}')->group(function () {
         }
         $universityPrograms = \App\Models\Programm::whereIn('id',$array)->get();
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.documents.index',[
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'Branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
             'university'=>$university,
@@ -346,12 +633,28 @@ Route::prefix('/{lang}')->group(function () {
     })->name('admission');
 
     Route::get('choose/{id}',function ($lang,$id){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.documents.registration.choose.index',[
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
-            'Branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
+            'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
             'id'=>$id
         ]);
     })->name('choose');
@@ -370,10 +673,25 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.dashboard.profile.index',[
         'locale'=>\Illuminate\Support\Facades\App::getLocale(),
         'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-        'contact'=>\App\Models\Contact::where('type',1)->first(),
+        'contact'=>$contact,
         'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
         'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
     ]); })->name('dashboard');
@@ -384,10 +702,25 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.dashboard.profile-edit.index',[
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
         ]);
@@ -399,10 +732,25 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.dashboard.password-edit.index',[
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'branches'=>\App\Models\Branch::orderBy('name_uz', 'desc')->get(),
         ]);
@@ -418,9 +766,24 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.dashboard.my-documents.index',[
             'documents'=>\App\Models\Document::where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at','desc')->paginate(9),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
@@ -436,9 +799,24 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.dashboard.my-documents.show', [
             'document' => $document,
-            'contact' => \App\Models\Contact::where('type', 1)->first(),
+            'contact' => $contact,
             'countries' => \App\Models\Country::join('universities', 'universities.country_id', 'countries.id')->select('countries.*')->get()->unique(),
             'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
@@ -452,9 +830,24 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.dashboard.my-messages.index',[
             'applications'=>\App\Models\Application::where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at','desc')->paginate(9),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
@@ -470,9 +863,24 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.dashboard.my-messages.show', [
             'application' => $application,
-            'contact' => \App\Models\Contact::where('type', 1)->first(),
+            'contact' => $contact,
             'countries' => \App\Models\Country::join('universities', 'universities.country_id', 'countries.id')->select('countries.*')->get()->unique(),
             'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
@@ -486,9 +894,24 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.dashboard.my-offers.index',[
             'offers'=>\App\Models\Cooperation::where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at','desc')->paginate(9),
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
@@ -504,13 +927,35 @@ Route::prefix('/{lang}')->group(function () {
             return abort('404');
         }
 
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
+
         return view('front.dashboard.my-offers.show',[
             'offer'=>$offer,
-            'contact'=>\App\Models\Contact::where('type',1)->first(),
+            'contact'=>$contact,
             'countries'=>\App\Models\Country::join('universities','universities.country_id','countries.id')->select('countries.*')->get()->unique(),
             'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
             'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.*')->take(5)->get()->unique(),
             'locale'=>\Illuminate\Support\Facades\App::getLocale(),
         ]);
     })->name('my-offers-show');
-});
+
+    Route::get('/set-branch/{id}',function ($lang,$id){
+
+        Session::put('main_branch',$id);
+
+        return \redirect()->back();
+
+    })->name('set-branch');});
