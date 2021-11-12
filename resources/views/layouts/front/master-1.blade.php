@@ -241,7 +241,7 @@
                                            class="large-menu-item">
                                             <img src="{{$country->country_logo->getUrl()}}" alt="">
                                             <span class="title">
-                                                    {{$country['name_'.$locale]}}                                                </span>
+                                                    {{$country['name_'.$locale]}}</span>
                                         </a>
                                     </div>
                                 @endforeach

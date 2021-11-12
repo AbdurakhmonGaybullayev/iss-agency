@@ -346,7 +346,7 @@
                                 @endif
                                 <ul class="catagory-items">
                                     @foreach($countries as $country)
-                                        <li><a href="#">{{$country['name_'.$locale]}} <i class="fa fa-caret-right"></i></a>
+                                        <li><a href="{{route('programs',$locale).'?country='.$country->id}}">{{$country['name_'.$locale]}} <i class="fa fa-caret-right"></i></a>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -356,7 +356,7 @@
                                     <h4 class="widget-title">{{__('Directions')}}</h4>
                                     <div class="tagcloud">
                                         @foreach($programs as $program)
-                                            <a href="#">{{$program['name_'.$locale]}}</a>
+                                            <a href="{{route('programs',$locale).'?program='.$program->id}}">{{$program['name_'.$locale]}}</a>
                                         @endforeach
                                     </div>
                                 @endif
