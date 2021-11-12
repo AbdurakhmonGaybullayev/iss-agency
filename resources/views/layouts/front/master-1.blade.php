@@ -74,7 +74,7 @@
                     <div class="col-md-8 text-md-left text-center">
                         <ul>
                             <li class="social-area"><p style="color: white">
-                                    <i class="fa fa-map-marker"></i> {{$branch['name_'.$locale] . ', '}} @php $city = explode('-', \App\Models\Branch::REGION_SELECT[$branch->region]['city']); @endphp @if($locale == 'uz'){{$city[0]}}@elseif($locale == 'ru') {{$city[1]}} @elseif($locale == 'en') {{$city[2]}} @endif {{__('is convenient for you?')}}
+                                    <i class="fa fa-map-marker"></i> {{$branch['name_'.$locale] . ', '}} @php $city = explode('-', $branch->region); @endphp @if($locale == 'uz'){{$city[0]}}@elseif($locale == 'ru') {{$city[1]}} @elseif($locale == 'en') {{$city[2]}} @endif {{__('is convenient for you?')}}
                                 </p>
                             </li>
                             <li><a class="btn btn-info" style="line-height: 25px; height: 25px; padding: 0 25px"
