@@ -396,6 +396,7 @@
 
 
 </script>
+<script src="//code-ya.jivosite.com/widget/6Y8woH0Xth" async></script>
 
 @yield('js')
 </body>
