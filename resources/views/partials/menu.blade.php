@@ -229,7 +229,7 @@
         @endcan
         @can('branch_access')
             <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.Branches.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/Branches") || request()->is("admin/Branches/*") ? "c-active" : "" }}">
+                <a href="{{ route("admin.branches.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/Branches") || request()->is("admin/Branches/*") ? "c-active" : "" }}">
                     <i class="fa-fw fas fa-map-marker-alt c-sidebar-nav-icon">
 
                     </i>

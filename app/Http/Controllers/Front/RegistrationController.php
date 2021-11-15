@@ -17,7 +17,7 @@ class RegistrationController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'middle_name' => 'required',
-            'branch_id' => 'required|exists:Branches,id',
+            'branch_id' => 'required|exists:branches,id',
             'region_id' => 'required',
             'phone_number' => 'required',
             'email' => 'email|required|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:users',

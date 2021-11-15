@@ -20,7 +20,7 @@ class MassDestroyBranchRequest extends FormRequest
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:Branches,id',
+            'ids.*' => 'exists:branches,id',
         ];
     }
 }

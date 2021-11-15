@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.Branches.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.branches.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label class="required" for="number">{{ trans('cruds.branch.fields.number') }}</label>
@@ -171,10 +171,10 @@
             </div>
             <div class="form-group">
                 <label class="required" for="region">{{ trans('cruds.branch.fields.region') }}</label>
-                <select onchange="region_abduvohid()" id="region_abduvohid" class="form-control {{ $errors->has('region') ? 'is-invalid' : '' }}" name="region" id="region" required>
+                <select onchange="region_abduvohid()"  class="form-control {{ $errors->has('region') ? 'is-invalid' : '' }}" name="region" id="region" required>
                     <option value disabled {{ old('region', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach(App\Models\Branch::REGION_SELECT as $key => $label)
-                        <option value="{{ (string) $label['lang'] }}" {{ old('region', '') ===  $key ? 'selected' : '' }}>{{ $key }}</option>
+                        <option value="{{ (string) $key }}" {{ old('region', '') ===  $key ? 'selected' : '' }}>{{ $label['city'] }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('region'))
@@ -187,11 +187,11 @@
             <div class="form-group">
                 <label class="required" for="city">{{ trans('cruds.branch.fields.city') }}</label>
                 <input class="form-control {{ $errors->has('city') ? 'is-invalid' : '' }}" type="text" name="city" id="city" value="{{ old('city', '') }}" required>
-                <select  id="city_abduvohid" class="form-control {{ $errors->has('cityis-invalid' : '' }}" name="city" id="city" required>
-                    <option value disabled {{ old('region', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Branch::REGION_SELECT as $key => $label)
-                        <option value="{{ (string) $label['lang'] }}" {{ old('region', '') ===  $key ? 'selected' : '' }}>{{ $key }}</option>
-                    @endforeach
+                <select  id="city_abduvohid" class="form-control {{ $errors->has('cityis-invalid') ? : '' }}" name="city" id="city" required>
+                    
+                   
+
+
                 </select>
 
                 @if($errors->has('city'))
@@ -213,17 +213,30 @@
 <script>
 
     function region_abduvohid(){
-        let $select=document.getElementById('region_abduvohid');
+        let $select=document.getElementById('region');
         let active_option=$select.options[$select.selectedIndex].value;
 
         let city_select= document.getElementById('city_abduvohid');
+        
 
-        let cities=Branch::REGION_SELECT[active_option]['cities'];
+        <?php
+$php_array = \App\Models\Branch::REGION_SELECT;
+?>
+
+        let cities=      <?php echo json_encode($php_array); ?>;
+
+       
+       let massiv=(JSON.stringify(cities[active_option].districts).split(','));
         let options='';
-        cities.forEach(element,key => {
-            options+='<option>'+key+"</option>";
+        massiv.forEach(element => {
+
+            options+='<option value='+element.split(":")[0]+'>'+element.split(":")[1]+"</option>";
         });
-        city_select.innerHTML=options;
+        str = options.replace(/"/g, '');
+        str = str.replace(/{/g, '');
+        str = str.replace(/}/g, '');
+        
+        city_select.innerHTML=str;
 
     }
 
