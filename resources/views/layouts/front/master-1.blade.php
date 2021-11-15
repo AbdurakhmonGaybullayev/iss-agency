@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+@php
+
+    use Illuminate\Support\Facades\Session;
+
+@endphp
+    <!DOCTYPE html>
 <html lang="zxx">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +21,26 @@
 
 </head>
 <body>
+<!-- Button trigger modal -->
+<button style="display: none;" type="button" id="modal-alert-button" class="btn btn-primary" data-toggle="modal"
+        data-target="#exampleModalCenter">
+    Launch demo modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div id="modal-header" class="modal-header">
+                <h5 style="margin: 0" id="exampleModalLongTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
+        </div>
+    </div>
+</div>
 <!-- preloader area start -->
 <div class="preloader" id="preloader">
     <div class="preloader-inner">
@@ -42,6 +66,32 @@
 <div class="body-overlay" id="body-overlay"></div>
 
 <!-- navbar start -->
+@guest()
+    @if(Session::get('main_branch') == null)
+        <div style="background: #002147" class="navbar-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 text-md-left text-center">
+                        <ul>
+                            <li class="social-area"><p style="color: white">
+                                    <i class="fa fa-map-marker"></i> {{$branch['name_'.$locale] . ', '}} @php $city = explode('-', $branch->region); @endphp @if($locale == 'uz'){{$city[0]}}@elseif($locale == 'ru') {{$city[1]}} @elseif($locale == 'en') {{$city[2]}} @endif {{__('is convenient for you?')}}
+                                </p>
+                            </li>
+                            <li><a class="btn btn-info" style="line-height: 25px; height: 25px; padding: 0 25px"
+                                   href="{{route('set-branch',['lang'=>$locale,'id'=>'main'])}}">{{__("Ha")}}</a>
+                            </li>
+                            <li onclick="branchesList()"><a class="btn btn-base" style="line-height: 25px; height: 25px; padding: 0 25px"
+                                   >{{__("Choose another branch")}}</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+@endguest
 <div class="navbar-area">
     <!-- navbar top start -->
     <div class="navbar-top">
@@ -113,10 +163,10 @@
                     <a class="btn btn-base" href="{{route('sign-up',$locale)}}">{{__('Register')}}</a>
                 @endguest
                 @auth()
-{{--                    <a class="search-bar"--}}
-{{--                       title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"--}}
-{{--                       href="#"><i class="fa fa-user"></i></a>--}}
-                    <a class="logout" ><i class="fa fa-sign-out"></i></a>
+                    <a class="dashboard border-home"
+                       title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"
+                       href="{{route('dashboard',$locale)}}"><i class="fa fa-user"></i></a>
+                    <a class="logout" href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
                 @endauth
                 <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
             </div>
@@ -154,9 +204,9 @@
                     <a class="btn btn-base" href="{{route('sign-up',$locale)}}">{{__('Register')}}</a>
                 @endguest
                 @auth()
-{{--                    <a class="search-bar"--}}
-{{--                       title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"--}}
-{{--                       href="#"><i class="fa fa-user"></i></a>--}}
+                    <a class="dashboard border-home"
+                       title="{{\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name}}"
+                       href="{{route('dashboard',$locale)}}"><i class="fa fa-user"></i></a>
                     <a class="logout" href="{{route('user-logout',$locale)}}"><i class="fa fa-sign-out"></i></a>
                 @endauth
                 <a class="search-bar" href="#"><i class="fa fa-search"></i></a>
@@ -191,7 +241,7 @@
                                            class="large-menu-item">
                                             <img src="{{$country->country_logo->getUrl()}}" alt="">
                                             <span class="title">
-                                                    {{$country['name_'.$locale]}}                                                </span>
+                                                    {{$country['name_'.$locale]}}</span>
                                         </a>
                                     </div>
                                 @endforeach
@@ -360,6 +410,15 @@
         });
     });
 
+    function branchesList(){
+        document.getElementById('modal-alert-button').click();
+        document.getElementById('exampleModalLongTitle').style.color = 'green';
+        var branches = "@php $item = 0 @endphp @foreach($branches as $branch) @php $item = $item + 1; @endphp <a href= '{{route('set-branch',['lang'=>$locale,'id'=>$branch->id])}}'> {{$branch['name_'.$locale]}} @if($item != $branches->count()) </a><hr> @endif @endforeach";
+        document.getElementById('exampleModalLongTitle').style.width = "100%";
+        document.getElementById('exampleModalLongTitle').style.textAlign = "center";
+        document.getElementById('exampleModalLongTitle').innerHTML = branches;
+    }
+
     {{--    @if(session()->has('success'))--}}
 
     {{--    alert('{{__('Welcome').' '.\Illuminate\Support\Facades\Auth::user()->first_name.' '.\Illuminate\Support\Facades\Auth::user()->last_name.' '.__('to ISS agency website!'))}}');--}}
@@ -371,7 +430,10 @@
 
     {{--    @endif--}}
 
+
 </script>
+<script src="//code-ya.jivosite.com/widget/6Y8woH0Xth" async></script>
+
 @yield('js')
 </body>
 </html>

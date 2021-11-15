@@ -2024,13 +2024,17 @@ ul {
     text-align: center;
 }
 
-.nav-right-part .logout {
+.nav-right-part .logout, .nav-right-part .dashboard {
     border: 1px solid rgba(0, 33, 71, 0.2);
     display: inline-block;
     height: 45px;
     width: 45px;
     line-height: 43px;
     text-align: center;
+}
+
+.nav-right-part .border-home{
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .nav-right-part .search-bar:hover {

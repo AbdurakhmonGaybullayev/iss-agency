@@ -30,7 +30,7 @@
                             <div class="media-left">
                                 <img src="{{asset('front/assets/img/icon/16.png')}}" alt="img">
                             </div>
-                            <div class="media-body align-self-center">
+                            <div onclick="document.getElementById('iframe').innerHTML = '{{$branch->google_map_link}}'" class="media-body align-self-center">
                                 <h5>{{$branch['name_'.$locale]}}</h5>
                                 <p><i class="fa fa-map-marker"></i> {{$branch['address_'.$locale]}}</p>
                                 <p><i class="fa fa-phone"></i> {{$branch->phone_number}}</p>
@@ -45,8 +45,7 @@
     <!-- contact list end -->
 
     <!-- contact area start -->
-    <div class="contact-g-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2998.416455186988!2d69.19898885092606!3d41.27803997917255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b35e74a7935%3A0x3135212ba7b9a28a!2sIss%20agensy%20Otabek!5e0!3m2!1sru!2s!4v1634195660277!5m2!1sru!2s" ></iframe>
+    <div id="iframe" class="contact-g-map">
     </div>
     <!-- contact area end -->
 

@@ -13,6 +13,7 @@
                             <div class="col-12">
                                 <div class="single-input-inner style-bg-border">
                                     <input type="text" name="foradmission" value="{{$foradmission}}" hidden>
+                                    <input type="text" name="forcooperation" value="{{$forcooperation}}" hidden>
                                     <input type="email" value="{{old('email')}}" name="email" placeholder="Email">
                                     @error('email')
                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -25,6 +26,9 @@
                                     @error('password')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
+                                    @if(session()->has('incorrect'))
+                                        <div class="alert alert-danger">{{ __(session()->get('incorrect')) }}</div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-12 mb-4">

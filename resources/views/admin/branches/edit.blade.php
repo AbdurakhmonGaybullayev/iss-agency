@@ -7,7 +7,11 @@
     </div>
 
     <div class="card-body">
+<<<<<<< HEAD
         <form method="POST" action="{{ route("admin.branches.update", [$branch->id]) }}" enctype="multipart/form-data">
+=======
+        <form method="POST" action="{{ route("admin.Branches.update", $branch->id) }}" enctype="multipart/form-data">
+>>>>>>> ebf3e433af93266892ead6720fec05d284a019aa
             @method('PUT')
             @csrf
             <div class="form-group">

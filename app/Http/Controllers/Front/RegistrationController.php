@@ -46,6 +46,9 @@ class RegistrationController extends Controller
             if ($request->foradmission != null){
                 return redirect()->route('admission',['lang'=>$locale,'id'=>$request->foradmission]);
             }
+            if ($request->forcooperation != null){
+                return redirect()->route('cooperation',$locale);
+            }
             return redirect()->route('home',$locale)->with(['success' => 'true']);
         } else {
             return redirect()->back()->with(['fail' => 'true']);
@@ -72,9 +75,14 @@ class RegistrationController extends Controller
             if ($request->foradmission != null){
                 return redirect()->route('admission',['lang'=>$locale,'id'=>$request->foradmission]);
             }
+            if ($request->forcooperation != null){
+                return redirect()->route('cooperation',$locale);
+            }
             return redirect()->route('home',$locale)->with(['success' => 'true']);
         } else {
-            return redirect()->back()->with(['fail' => 'true']);
+            return redirect()->back()->with(['incorrect' => 'Wrong password']);
         }
     }
+
+
 }

@@ -90,7 +90,7 @@
                                 {{ $branch->address_uz ?? '' }}
                             </td>
                             <td>
-                                {{ $branch->region ?? '' }}
+                                {{ $branch->region }}
                             </td>
                             <td>
                                 {{ $branch->city ?? '' }}

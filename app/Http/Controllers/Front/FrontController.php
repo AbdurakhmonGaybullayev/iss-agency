@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Application;
 use App\Models\Cooperation;
 use App\Models\Document;
-use App\Models\News;
-use App\Models\QandA;
 use App\Models\University;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class FrontController extends Controller
@@ -40,14 +42,14 @@ class FrontController extends Controller
                 }
 
                 if ($request->ielts && $request->ielts != '' && $request->ielts != '4.5') {
-                    if ($request->ielts == '9.5'){
+                    if ($request->ielts == '9.5') {
                         $request->ielts = 0;
                     }
                     $universities = $universities->where('universities.ielts', $request->ielts);
                 }
 
                 if ($request->price_from) {
-                    if ($request->price_from == ''){
+                    if ($request->price_from == '') {
                         $request->price_from = 0;
                     }
                     $universities = $universities->where('universities.price', '>=', $request['price_from']);
@@ -66,7 +68,6 @@ class FrontController extends Controller
                     ->distinct('universities.id')
                     ->orderBy('top', 'desc')->orderBy('number', 'desc')
                     ->paginate($items_per_page);
-
 
 
             } elseif ($request->search) {
@@ -161,7 +162,7 @@ class FrontController extends Controller
 
         if ($cooperation->save()) {
 
-            $text = "<b>Hamkorlik</b>".PHP_EOL.PHP_EOL."👨‍💼 <b>Taklif beruvchi :</b> " . Auth::user()->first_name . " " . Auth::user()->last_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . Auth::user()->phone_number . PHP_EOL . "📧 <b>Email :</b> " . Auth::user()->email . PHP_EOL . "📄 <b>Kompaniya :</b> " . $cooperation->company_name . PHP_EOL . "<b>👝 Lavozim :</b> " . $cooperation->position .  PHP_EOL . "<b>🌐 Havola:</b> " . route('admin.cooperations.show', $cooperation->id) .  PHP_EOL .  PHP_EOL .  "<b>Taklif</b> : " . $cooperation->message;
+            $text = "<b>Hamkorlik</b>" . PHP_EOL . PHP_EOL . "👨‍💼 <b>Taklif beruvchi :</b> " . Auth::user()->first_name . " " . Auth::user()->last_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . Auth::user()->phone_number . PHP_EOL . "📧 <b>Email :</b> " . Auth::user()->email . PHP_EOL . "📄 <b>Kompaniya :</b> " . $cooperation->company_name . PHP_EOL . "<b>👝 Lavozim :</b> " . $cooperation->position . PHP_EOL . "<b>🌐 Havola:</b> " . route('admin.cooperations.show', $cooperation->id) . PHP_EOL . PHP_EOL . "<b>Taklif</b> : " . $cooperation->message;
 
             Telegram::sendMessage(
                 [
@@ -215,9 +216,9 @@ class FrontController extends Controller
 
             $ielts = ($request->certificate_status - 1) == 1 ? "Bor" : "Yo`q";
 
-            $phone_number_2 = $request->phone_number_2 != '' ?  PHP_EOL ."📞 <b>Telefon raqami 2:</b> " . $request->phone_number_2 : '';
+            $phone_number_2 = $request->phone_number_2 != '' ? PHP_EOL . "📞 <b>Telefon raqami 2:</b> " . $request->phone_number_2 : '';
 
-            $text = "<b>Ariza</b>".PHP_EOL.PHP_EOL."👨‍💼 <b>Ariza beruvchi :</b> " . $request->first_name . " " . $request->last_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . $request->phone_number_1 . $phone_number_2 . PHP_EOL . "📧 <b>Email :</b> " . $request->email . PHP_EOL . "📄 <b>IELTS :</b> " . $ielts . PHP_EOL . PHP_EOL . "<b>Mavzu</b> : <i>" . $request->subject .'</i>' . PHP_EOL . "<b>Ariza</b> : " . $request->message;
+            $text = "<b>Ariza</b>" . PHP_EOL . PHP_EOL . "👨‍💼 <b>Ariza beruvchi :</b> " . $request->first_name . " " . $request->last_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . $request->phone_number_1 . $phone_number_2 . PHP_EOL . "📧 <b>Email :</b> " . $request->email . PHP_EOL . "📄 <b>IELTS :</b> " . $ielts . PHP_EOL . PHP_EOL . "<b>Mavzu</b> : <i>" . $request->subject . '</i>' . PHP_EOL . "<b>Ariza</b> : " . $request->message;
 
             Telegram::sendMessage(
                 [
@@ -259,6 +260,7 @@ class FrontController extends Controller
         $document->status = 0;
         $document->user_id = Auth::user()->id;
         $document->university_id = $request->university_id;
+        $document->programm_id = $request->program;
         $document->direction_id = $request->direction;
 
         //User Folder Create
@@ -341,7 +343,7 @@ class FrontController extends Controller
 
         if ($document->save()) {
 
-            $text = "<b>Hujjat</b>".PHP_EOL.PHP_EOL."👨‍💼 <b>Hujjat topshiruvchi :</b> " . Auth::user()->first_name . " " . Auth::user()->last_name . " " . Auth::user()->middle_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . Auth::user()->phone_number . PHP_EOL . "📧 <b>Email :</b> " . Auth::user()->email . PHP_EOL . PHP_EOL . "<b>🌐 Havola:</b> " . route('admin.documents.show', $document->id);
+            $text = "<b>Hujjat</b>" . PHP_EOL . PHP_EOL . "👨‍💼 <b>Hujjat topshiruvchi :</b> " . Auth::user()->first_name . " " . Auth::user()->last_name . " " . Auth::user()->middle_name . PHP_EOL . "📞 <b>Telefon raqami :</b> " . Auth::user()->phone_number . PHP_EOL . "📧 <b>Email :</b> " . Auth::user()->email . PHP_EOL . PHP_EOL . "<b>🌐 Havola:</b> " . route('admin.documents.show', $document->id);
 
             Telegram::sendMessage(
                 [
@@ -358,9 +360,8 @@ class FrontController extends Controller
 
     }
 
-    public function search(Request $request){
-
-
+    public function search(Request $request)
+    {
         return view('front.search.index', [
             'contact' => \App\Models\Contact::where('type', 1)->first(),
             'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
@@ -368,5 +369,56 @@ class FrontController extends Controller
             'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.id', 'programms.name_uz', 'programms.name_ru', 'programms.name_en')->orderBy('programms.id', 'asc')->get()->unique(),
             'locale' => \Illuminate\Support\Facades\App::getLocale(),
         ]);
+    }
+
+    public function password_edit(Request $request,$locale)
+    {
+        $this->validate($request, [
+            'current_password' => 'required|min:3',
+            'new_password' => 'required|min:3|same:confirm_new_password',
+        ]);
+        if ($request->current_password==$request->new_password) {
+            return redirect()->back()->with(['same' => 'Current Password and New Password cannot be same!']);
+        }
+            if (Hash::check($request->current_password, Auth::user()->password)) {
+                $user = User::where('id', Auth::user()->id)->first();
+                $user->password = bcrypt($request->new_password);
+                if ($user->save()) {
+                    return redirect()->route('dashboard',$locale)->with(['success' => 'Password edited successfully!']);
+                } else {
+                    return redirect()->route('dashboard',$locale)->with(['fail' => 'An error occured password edited successfully!']);
+                }
+            } else {
+                return redirect()->back()->with(['incorrect' => 'Current password is incorrect!']);
+            }
+
+    }
+
+    function profile_edit(Request $request,$locale){
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'branch_id' => 'required|exists:Branches,id',
+            'region_id' => 'required',
+            'phone_number' => 'required',
+            'email' => 'email|required|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
+        ]);
+
+        $user = User::where('id',Auth::user()->id)->first();
+
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->middle_name = $request->middle_name;
+        $user->branch_id = $request->branch_id;
+        $user->region = $request->region_id;
+        $user->phone_number = $request->phone_number;
+        $user->email = $request->email;
+
+        if ($user->save()) {
+            return redirect()->route('dashboard',$locale)->with(['success' => 'Profile edited successfully!']);
+        } else {
+            return redirect()->back()->with(['fail' => 'An error occured in editing profile!']);
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use \DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -25,6 +26,7 @@ class Document extends Model implements HasMedia
     protected $fillable = [
         'user_id',
         'university_id',
+        'programm_id',
         'direction_id',
         'status',
         'created_at',
@@ -56,6 +58,11 @@ class Document extends Model implements HasMedia
     public function certificates()
     {
         return $this->belongsToMany(Certificate::class);
+    }
+
+    public function programm()
+    {
+        return $this->belongsTo(Direction::class, 'programm_id');
     }
 
     public function direction()
