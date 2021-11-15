@@ -7,7 +7,11 @@
     </div>
 
     <div class="card-body">
+<<<<<<< HEAD
+        <form method="POST" action="{{ route("admin.branches.update", [$branch->id]) }}" enctype="multipart/form-data">
+=======
         <form method="POST" action="{{ route("admin.Branches.update", $branch->id) }}" enctype="multipart/form-data">
+>>>>>>> ebf3e433af93266892ead6720fec05d284a019aa
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -174,10 +178,10 @@
             </div>
             <div class="form-group">
                 <label class="required" for="region">{{ trans('cruds.branch.fields.region') }}</label>
-                <select class="form-control {{ $errors->has('region') ? 'is-invalid' : '' }}" name="region" id="region" required>
+                <select onchange="region_abduvohid()" class="form-control {{ $errors->has('region') ? 'is-invalid' : '' }}" name="region" id="region" required>
                     <option value disabled {{ old('region', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach(App\Models\Branch::REGION_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('region', $user->region)  === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                        <option value="{{ $key }}" {{ old('region', $branch->region)  === (string) $key ? 'selected' : '' }}>{{ $label['city'] }}</option>
                     @endforeach
                 </select>                @if($errors->has('region'))
                     <div class="invalid-feedback">
@@ -188,7 +192,12 @@
             </div>
             <div class="form-group">
                 <label class="required" for="city">{{ trans('cruds.branch.fields.city') }}</label>
-                <input class="form-control {{ $errors->has('city') ? 'is-invalid' : '' }}" type="text" name="city" id="city" value="{{ old('city', $branch->city) }}" required>
+                <select   class="city_abduvohid form-control {{ $errors->has('cityis-invalid') ? : '' }}" name="city" id="city" required>
+                    
+                   
+
+
+                </select>
                 @if($errors->has('city'))
                     <div class="invalid-feedback">
                         {{ $errors->first('city') }}
@@ -205,6 +214,36 @@
     </div>
 </div>
 
+<script>
 
+    function region_abduvohid(){
+        let $select=document.getElementById('region');
+        let active_option=$select.options[$select.selectedIndex].value;
+
+        let city_select= document.querySelector('.city_abduvohid');
+        
+
+        <?php
+$php_array = \App\Models\Branch::REGION_SELECT;
+?>
+
+        let cities=      <?php echo json_encode($php_array); ?>;
+
+       
+       let massiv=(JSON.stringify(cities[active_option].districts).split(','));
+        let options='';
+        massiv.forEach(element => {
+
+            options+='<option value='+element.split(":")[0]+'>'+element.split(":")[1]+"</option>";
+        });
+        str = options.replace(/"/g, '');
+        str = str.replace(/{/g, '');
+        str = str.replace(/}/g, '');
+        
+        city_select.innerHTML=str;
+
+    }
+
+</script>
 
 @endsection

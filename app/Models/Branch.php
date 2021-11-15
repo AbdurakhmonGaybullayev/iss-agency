@@ -44,7 +44,7 @@ class Branch extends Model
                 'Zangiota' => 'Zangiota-Зангиота-Zangiota',
             ]],
         ['city' => 'Andijon viloyati-Андижанская область-Andijan region',
-            'cites' => [
+            'districts' => [
                 'Andijon' => 'Andijon-Андижан-Andijon',
                 'Asaka' => 'Asaka-Асака-Asaka',
                 'Boston' => 'Bo`ston-Бостон-Boston',
@@ -238,7 +238,7 @@ public const WEEKDAYS = [
         'Shanba-Суббота-Saturday' => 'Shanba',
         'Yakshanba-Воскресенье-Sunday' => 'Yakshanba',
     ];
-    public $table = 'Branches';
+    public $table = 'branches';
 
     protected $dates = [
         'created_at',

@@ -96,8 +96,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('news', 'NewsController');
 
     // Branch
-    Route::delete('Branches/destroy', 'BranchController@massDestroy')->name('Branches.massDestroy');
-    Route::resource('Branches', 'BranchController');
+    Route::delete('branches/destroy', 'BranchController@massDestroy')->name('branches.massDestroy');
+    Route::resource('branches', 'BranchController');
 
     // Team
     Route::delete('teams/destroy', 'TeamController@massDestroy')->name('teams.massDestroy');

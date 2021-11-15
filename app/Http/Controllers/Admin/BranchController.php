@@ -33,21 +33,21 @@ class BranchController extends Controller
     {
         $branch = Branch::create($request->all());
 
-        return redirect()->route('admin.Branches.index');
+        return redirect()->route('admin.branches.index');
     }
 
     public function edit(Branch $branch)
     {
         abort_if(Gate::denies('branch_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.Branches.edit', compact('branch'));
+        return view('admin.branches.edit', compact('branch'));
     }
 
     public function update(UpdateBranchRequest $request, Branch $branch)
     {
         $branch->update($request->all());
 
-        return redirect()->route('admin.Branches.index');
+        return redirect()->route('admin.branches.index');
     }
 
     public function show(Branch $branch)
