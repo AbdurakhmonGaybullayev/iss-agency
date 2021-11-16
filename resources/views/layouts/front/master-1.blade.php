@@ -145,7 +145,9 @@
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-area-2 navbar-area navbar-expand-lg">
+    <nav style="background: url({{asset('front/assets/img/hexagon.png')}});
+    background-size: auto 100%;" class="navbar navbar-area-2 navbar-area navbar-expand-lg">
+
         <div class="container nav-container">
             <div class="responsive-mobile-menu">
                 <button class="menu toggle-btn d-block d-lg-none" data-target="#edumint_main_menu"
