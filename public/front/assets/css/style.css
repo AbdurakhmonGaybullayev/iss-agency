@@ -2033,7 +2033,7 @@ ul {
     text-align: center;
 }
 
-.nav-right-part .border-home{
+.nav-right-part .border-home {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -4896,7 +4896,7 @@ ul {
     color: #1DC295;
 }
 
-.hidden-div{
+.hidden-div {
     position: absolute;
     top: 100%;
     left: 0;
@@ -5010,20 +5010,20 @@ ul li {
     margin-right: 10px;
 }
 
-.next-lang{
+.next-lang {
     display: none;
 }
 
 @keyframes slideLeft {
 }
 
- input[type=range] {
-     -webkit-appearance: none;
-     display: block;
-     margin: 0;
-     width: 100%;
-     background: transparent;
- }
+input[type=range] {
+    -webkit-appearance: none;
+    display: block;
+    margin: 0;
+    width: 100%;
+    background: transparent;
+}
 
 input[type=range]::-webkit-slider-runnable-track {
     -webkit-appearance: none;
@@ -5109,54 +5109,74 @@ input[type=range]::-ms-thumb {
 
 /*Gallery*/
 .photo-gallery {
-    color:#313437;
-    background-color:#fff;
+    color: #313437;
+    background-color: #fff;
 }
 
 .photo-gallery p {
-    color:#7d8285;
+    color: #7d8285;
 }
 
 .photo-gallery h2 {
-    font-weight:bold;
-    margin-bottom:40px;
-    padding-top:40px;
-    color:inherit;
+    font-weight: bold;
+    margin-bottom: 40px;
+    padding-top: 40px;
+    color: inherit;
 }
 
-@media (max-width:767px) {
+@media (max-width: 767px) {
     .photo-gallery h2 {
-        margin-bottom:25px;
-        padding-top:25px;
-        font-size:24px;
+        margin-bottom: 25px;
+        padding-top: 25px;
+        font-size: 24px;
     }
 }
 
 .photo-gallery .intro {
-    font-size:16px;
-    margin:0 auto 40px;
+    font-size: 16px;
+    margin: 0 auto 40px;
 }
 
 .photo-gallery .intro p {
-    margin-bottom:0;
+    margin-bottom: 0;
 }
 
 .photo-gallery .photos {
-    padding-bottom:20px;
+    padding-bottom: 20px;
 }
 
 .photo-gallery .item {
-    padding-bottom:30px;
+    padding-bottom: 30px;
 }
 
-.lb-outerContainer{
+.lb-outerContainer {
     width: 30%;
     height: auto;
 }
 
-.lb-image{
-    width: 100%!important;
-    height: auto!important;
+.lb-image {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.yes-btn {
+    color: #002147;
+    line-height: 25px;
+    height: 25px;
+    padding: 0 25px
+}
+
+.choose-branch {
+    color: white!important;
+    border: 1px solid white;
+    background: transparent;
+    line-height: 25px;
+    height: 25px;
+    padding: 0 25px;
+}
+
+.choose-branch:after{
+    background: #17a2b8;
 }
 
 

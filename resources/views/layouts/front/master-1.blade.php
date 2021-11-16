@@ -74,13 +74,13 @@
                     <div class="col-md-8 text-md-left text-center">
                         <ul>
                             <li class="social-area"><p style="color: white">
-                                    <i class="fa fa-map-marker"></i> {{$branch['name_'.$locale] . ', '}} @php $city = explode('-', $branch->region); @endphp @if($locale == 'uz'){{$city[0]}}@elseif($locale == 'ru') {{$city[1]}} @elseif($locale == 'en') {{$city[2]}} @endif {{__('is convenient for you?')}}
+                                    <i class="fa fa-map-marker"></i> {{$branch['name_'.$locale] . ', '}} @php $city = explode('-', $branch->region); @endphp @if($locale == 'uz'){{$city[0]}}@elseif($locale == 'ru') {{$city[1]}} @elseif($locale == 'en') {{$city[2]}} @endif {{__(' is convenient for you?')}}
                                 </p>
                             </li>
-                            <li><a class="btn btn-info" style="line-height: 25px; height: 25px; padding: 0 25px"
-                                   href="{{route('set-branch',['lang'=>$locale,'id'=>'main'])}}">{{__("Ha")}}</a>
+                            <li><a class="btn btn-info yes-btn"
+                                   href="{{route('set-branch',['lang'=>$locale,'id'=>'main'])}}">{{__("Yes")}}</a>
                             </li>
-                            <li onclick="branchesList()"><a class="btn btn-base" style="line-height: 25px; height: 25px; padding: 0 25px"
+                            <li onclick="branchesList()"><a class="btn btn-base choose-branch"
                                    >{{__("Choose another branch")}}</a>
                             </li>
 
@@ -155,7 +155,7 @@
                 </button>
             </div>
             <div class="logo">
-                <a href="{{route('home',$locale)}}"><img src="{{asset('front/assets/img/logo-iss.png')}}" alt="img"></a>
+                <a href="{{route('home',$locale)}}"><img style="margin-top: -15px; margin-bottom: -15px" src="{{asset('front/assets/img/logo-iss.png')}}" alt="img"></a>
             </div>
             <div class="nav-right-part nav-right-part-mobile">
                 @guest()
