@@ -26,7 +26,7 @@
         data-target="#exampleModalCenter">
     Launch demo modal
 </button>
-<!-- Modal -->
+<!-- Modal start-->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -41,6 +41,8 @@
         </div>
     </div>
 </div>
+<!-- Modal end-->
+
 <!-- preloader area start -->
 <div class="preloader" id="preloader">
     <div class="preloader-inner">
@@ -145,8 +147,7 @@
             </div>
         </div>
     </div>
-    <nav style="background: url({{asset('front/assets/img/hexagon.png')}});
-    background-size: auto 100%;" class="navbar navbar-area-2 navbar-area navbar-expand-lg">
+    <nav class="navbar navbar-area-2 navbar-area navbar-expand-lg">
 
         <div class="container nav-container">
             <div class="responsive-mobile-menu">
@@ -183,8 +184,12 @@
                     <li>
                         <a href="{{route('news',$locale)}}">{{__('News')}}</a>
                     </li>
-                    <li>
+                    <li class="menu-item-has-children">
                         <a href="{{route('gallery',$locale)}}">{{__('Gallery')}}</a>
+                        <ul class="sub-menu">
+                            <li><a href="{{route('gallery',$locale)}}">{{__('Photos')}}</a></li>
+                            <li><a href="{{route('videos',$locale)}}">{{__('Videos')}}</a></li>
+                        </ul>
                     </li>
 
                     <li class="menu-item-has-children">

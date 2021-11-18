@@ -36,6 +36,7 @@ Route::prefix('/{lang}')->group(function () {
 
         return view('front.home.index',[
             'main_header'=>\App\Models\MainHeader::first(),
+            'videos'=>\App\Models\Video::where('type',0)->where('top',1)->orderBy('number', 'desc')->get(),
             'home_direction_sections_1'=>\App\Models\HomeDirectionSection::whereBetween('number', [1, 3])->orderBy('number', 'asc')->get(),
             'home_direction_sections_2'=>\App\Models\HomeDirectionSection::whereBetween('number', [4, 6])->orderBy('number', 'asc')->get(),
             'contact'=>$contact,
@@ -107,7 +108,7 @@ Route::prefix('/{lang}')->group(function () {
 
     Route::get('/gallery',function (){
 
-        $items_per_page = 1;
+        $items_per_page = 9;
 
         $gallery = \App\Models\Gallery::orderBy('created_at', 'desc')->paginate($items_per_page);
 
@@ -143,7 +144,17 @@ Route::prefix('/{lang}')->group(function () {
         ]);
     })->name('gallery');
 
-    Route::get('/gallery/{id}',function ($lang,$id){
+    Route::get('/videos',function (){
+
+        $items_per_page = 9;
+
+        $videos = \App\Models\Video::where('parent_id',null)->orderBy('number', 'desc')->paginate($items_per_page);
+
+        if (isset($request->page)){
+            if ($request->page > ceil($videos->total()/$items_per_page)){
+                return Redirect::back();
+            }
+        }
 
         if (\Illuminate\Support\Facades\Auth::user()){
             $user = \Illuminate\Support\Facades\Auth::user();
@@ -160,6 +171,35 @@ Route::prefix('/{lang}')->group(function () {
             }
         }
 
+
+        return view('front.videos.index',[
+            'videos'=>$videos,
+            'contact'=>$contact,
+            'testimonials'=>\App\Models\Testimonial::take(9)->orderBy('created_at', 'desc')->get(),
+            'news'=>\App\Models\News::orderBy('created_at', 'desc')->get(),
+            'programs'=>\App\Models\Programm::join('direction_programm','programms.id','=','direction_programm.programm_id')->select('programms.id','programms.name_uz','programms.name_ru','programms.name_en')->orderBy('programms.id','asc')->get()->unique(),
+            'locale'=>\Illuminate\Support\Facades\App::getLocale(),
+        ]);
+    })->name('videos');
+
+    Route::get('/videos/{id}',[\App\Http\Controllers\Front\FrontController::class,'videosDetail'])->name('videos-detail');
+    
+    Route::get('/gallery/{id}',function ($lang,$id){
+
+        if (\Illuminate\Support\Facades\Auth::user()){
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id',$user->branch_id)->first();
+        }else{
+            if (Session::get('main_branch') !== null){
+                if (Session::get('main_branch') == 'main'){
+                    $contact = \App\Models\Contact::where('type',1)->first();
+                }else{
+                    $contact = \App\Models\Contact::where('id',Session::get('main_branch'))->first();
+                }
+            }else{
+                $contact = \App\Models\Contact::where('type',1)->first();
+            }
+        }
 
         return view('front.gallery.details',[
             'album'=>\App\Models\Gallery::where('id',$id)->first(),

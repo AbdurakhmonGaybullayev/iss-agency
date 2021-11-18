@@ -8,10 +8,8 @@ use App\Models\Cooperation;
 use App\Models\Document;
 use App\Models\University;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -371,30 +369,31 @@ class FrontController extends Controller
         ]);
     }
 
-    public function password_edit(Request $request,$locale)
+    public function password_edit(Request $request, $locale)
     {
         $this->validate($request, [
             'current_password' => 'required|min:3',
             'new_password' => 'required|min:3|same:confirm_new_password',
         ]);
-        if ($request->current_password==$request->new_password) {
+        if ($request->current_password == $request->new_password) {
             return redirect()->back()->with(['same' => 'Current Password and New Password cannot be same!']);
         }
-            if (Hash::check($request->current_password, Auth::user()->password)) {
-                $user = User::where('id', Auth::user()->id)->first();
-                $user->password = bcrypt($request->new_password);
-                if ($user->save()) {
-                    return redirect()->route('dashboard',$locale)->with(['success' => 'Password edited successfully!']);
-                } else {
-                    return redirect()->route('dashboard',$locale)->with(['fail' => 'An error occured password edited successfully!']);
-                }
+        if (Hash::check($request->current_password, Auth::user()->password)) {
+            $user = User::where('id', Auth::user()->id)->first();
+            $user->password = bcrypt($request->new_password);
+            if ($user->save()) {
+                return redirect()->route('dashboard', $locale)->with(['success' => 'Password edited successfully!']);
             } else {
-                return redirect()->back()->with(['incorrect' => 'Current password is incorrect!']);
+                return redirect()->route('dashboard', $locale)->with(['fail' => 'An error occured password edited successfully!']);
             }
+        } else {
+            return redirect()->back()->with(['incorrect' => 'Current password is incorrect!']);
+        }
 
     }
 
-    function profile_edit(Request $request,$locale){
+    function profile_edit(Request $request, $locale)
+    {
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -405,7 +404,7 @@ class FrontController extends Controller
             'email' => 'email|required|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
         ]);
 
-        $user = User::where('id',Auth::user()->id)->first();
+        $user = User::where('id', Auth::user()->id)->first();
 
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -416,9 +415,54 @@ class FrontController extends Controller
         $user->email = $request->email;
 
         if ($user->save()) {
-            return redirect()->route('dashboard',$locale)->with(['success' => 'Profile edited successfully!']);
+            return redirect()->route('dashboard', $locale)->with(['success' => 'Profile edited successfully!']);
         } else {
             return redirect()->back()->with(['fail' => 'An error occured in editing profile!']);
         }
+    }
+
+    function videosDetail($lang, $id)
+    {
+        if (\Illuminate\Support\Facades\Auth::user()) {
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $contact = \App\Models\Contact::where('branch_id', $user->branch_id)->first();
+        } else {
+            if (Session::get('main_branch') !== null) {
+                if (Session::get('main_branch') == 'main') {
+                    $contact = \App\Models\Contact::where('type', 1)->first();
+                } else {
+                    $contact = \App\Models\Contact::where('id', Session::get('main_branch'))->first();
+                }
+            } else {
+                $contact = \App\Models\Contact::where('type', 1)->first();
+            }
+        }
+
+        $video = \App\Models\Video::where('id',$id)->first();
+
+        if (!$video){
+            return abort(404);
+        }
+
+        if ($video->type == 1){
+
+            $items_per_page = 9;
+
+            $videos = \App\Models\Video::where('parent_id',$video->id)->orderBy('number', 'desc')->paginate($items_per_page);
+
+            return view('front.videos.index', [
+                'videos' => $videos,
+                'contact' => $contact,
+                'testimonials' => \App\Models\Testimonial::take(9)->orderBy('created_at', 'desc')->get(),
+                'news' => \App\Models\News::orderBy('created_at', 'desc')->get(),
+                'programs' => \App\Models\Programm::join('direction_programm', 'programms.id', '=', 'direction_programm.programm_id')->select('programms.id', 'programms.name_uz', 'programms.name_ru', 'programms.name_en')->orderBy('programms.id', 'asc')->get()->unique(),
+                'locale' => \Illuminate\Support\Facades\App::getLocale(),
+            ]);
+        }elseif ($video->type == 0){
+            return redirect()->to($video->file->getUrl());
+        }
+
+
+
     }
 }

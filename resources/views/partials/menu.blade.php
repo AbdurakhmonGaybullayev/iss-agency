@@ -177,6 +177,16 @@
                 </a>
             </li>
         @endcan
+        @can('video_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.videos.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/videos") || request()->is("admin/videos/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-video c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.video.title') }}
+                </a>
+            </li>
+        @endcan
         @can('news_access')
             <li class="c-sidebar-nav-item">
                 <a href="{{ route("admin.news.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/news") || request()->is("admin/news/*") ? "c-active" : "" }}">

@@ -5227,6 +5227,7 @@ pre code {
 }
 
 @media (max-width: 991.98px) {
+
     .table-responsive-lg {
         display: block;
         width: 100%;
@@ -7337,6 +7338,9 @@ tbody.collapse.show {
 }
 
 @media (min-width: 992px) {
+    .modal-width{
+        width: 60%!important;
+    }
     .navbar-expand-lg {
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
@@ -8730,6 +8734,10 @@ button.close {
     .modal-dialog {
         max-width: 500px;
         margin: 1.75rem auto
+    }
+
+    .modal-width {
+        max-width: 80%;
     }
 
     .modal-dialog-centered {

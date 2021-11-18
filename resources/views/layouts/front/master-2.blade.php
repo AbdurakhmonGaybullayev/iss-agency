@@ -156,8 +156,12 @@
                     <li>
                         <a href="{{route('news',$locale)}}">{{__('News')}}</a>
                     </li>
-                    <li>
+                    <li class="menu-item-has-children">
                         <a href="{{route('gallery',$locale)}}">{{__('Gallery')}}</a>
+                        <ul class="sub-menu">
+                            <li><a href="{{route('gallery',$locale)}}">{{__('Photos')}}</a></li>
+                            <li><a href="{{route('videos',$locale)}}">{{__('Videos')}}</a></li>
+                        </ul>
                     </li>
 
                     <li class="menu-item-has-children">

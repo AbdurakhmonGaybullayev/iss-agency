@@ -132,6 +132,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('home-direction-sections/media', 'HomeDirectionSectionController@storeMedia')->name('home-direction-sections.storeMedia');
     Route::post('home-direction-sections/ckmedia', 'HomeDirectionSectionController@storeCKEditorImages')->name('home-direction-sections.storeCKEditorImages');
     Route::resource('home-direction-sections', 'HomeDirectionSectionController', ['except' => ['create', 'store', 'destroy']]);
+
+    // Video
+    Route::delete('videos/destroy', 'VideoController@massDestroy')->name('videos.massDestroy');
+    Route::post('videos/media', 'VideoController@storeMedia')->name('videos.storeMedia');
+    Route::post('videos/ckmedia', 'VideoController@storeCKEditorImages')->name('videos.storeCKEditorImages');
+    Route::resource('videos', 'VideoController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

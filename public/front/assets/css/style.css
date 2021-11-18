@@ -2465,6 +2465,10 @@ ul {
     .navbar-area .nav-container .navbar-collapse .navbar-nav li a {
         color: var(--heading-color);
     }
+
+    .video-slider {
+        margin-top: 50px;
+    }
 }
 
 /* Tablet Layout wide: 767px. */
@@ -5167,7 +5171,7 @@ input[type=range]::-ms-thumb {
 }
 
 .choose-branch {
-    color: white!important;
+    color: white !important;
     border: 1px solid white;
     background: transparent;
     line-height: 25px;
@@ -5175,8 +5179,23 @@ input[type=range]::-ms-thumb {
     padding: 0 25px;
 }
 
-.choose-branch:after{
+.choose-branch:after {
     background: #17a2b8;
+}
+
+.video-slider {
+    z-index: 1;
+}
+
+.play-icon {
+    color: #d4d4d4;
+    display: inline-block;
+    font-size: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
 }
 
 
