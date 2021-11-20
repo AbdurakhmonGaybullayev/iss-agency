@@ -143,7 +143,6 @@
     </div>
     <!-- intro end -->
 
-
     <!-- course area start -->
     <div class="course-area pd-top-110 pd-bottom-90">
         <div class="container">
@@ -194,6 +193,29 @@
         </div>
     </div>
     <!-- course area end -->
+
+    <!--client-area start-->
+    <div class="client-area bg-base pd-top-100 pd-bottom-100"
+         style="background-image: url({{asset('front/assets/img/institute/bg.png')}});">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="institute-slider owl-carousel">
+                        @foreach($universities as $university)
+                            @if($university->university_logo->getUrl() !== null)
+                                <div class="item">
+                                    <img style="height: 100px" src="{{ $university->university_logo->getUrl() ?? ''  }}"
+                                         alt="img">
+                                </div>
+                            @endif
+                        @endforeach
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--client-area end-->
 
     <!-- testimonial area start -->
     <div class="testimonial-area pd-top-110 pd-bottom-120"

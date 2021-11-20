@@ -88,9 +88,9 @@
                                 {{ $university->name_uz ?? '' }}
                             </td>
                             <td>
-                                @if($university->image)
-                                    <a href="{{ $university->image->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $university->image->getUrl('thumb') }}">
+                                @if($university->university_logo)
+                                    <a href="{{ $university->university_logo->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $university->university_logo->getUrl('thumb') }}">
                                     </a>
                                 @endif
                             </td>

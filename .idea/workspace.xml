@@ -1,36 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e9a96e62-3c81-4a5b-a87a-a8bd18b3b619" name="Default Changelist" comment="asal ari">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/VideoController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/MassDestroyVideoRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/StoreVideoRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateVideoRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Video.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/media-library.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_11_18_000015_create_videos_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_11_18_000040_add_relationship_fields_to_videos_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/videos/create.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/videos/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/videos/index.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/videos/show.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/front/videos/index.blade.php" afterDir="false" />
+    <list default="true" id="e9a96e62-3c81-4a5b-a87a-a8bd18b3b619" name="Default Changelist" comment="videos added, it is ideal">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Front/FrontController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Front/FrontController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/front/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/front/assets/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/front/assets/css/vendor.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/front/assets/css/vendor.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/storage.zip" beforeDir="false" afterPath="$PROJECT_DIR$/public/storage.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/cruds.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/cruds.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/ru.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ru.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/uz.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/uz.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/galleries/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/galleries/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/universities/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/universities/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/universities/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/universities/show.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/front/home/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/home/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/front/master-1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/front/master-1.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/front/master-2.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/front/master-2.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/menu.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/front.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/front.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,7 +210,7 @@
       <workItem from="1636436121978" duration="180000" />
       <workItem from="1637017114321" duration="16196000" />
       <workItem from="1637214156395" duration="9822000" />
-      <workItem from="1637235057995" duration="9359000" />
+      <workItem from="1637235057995" duration="11653000" />
     </task>
     <task id="LOCAL-00001" summary="slogan International Study Service Agency added">
       <created>1637045696822</created>
@@ -258,7 +233,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637051671591</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="videos added, it is ideal">
+      <created>1637246785730</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1637246785730</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,6 +262,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="slogan International Study Service Agency added" />
     <MESSAGE value="asal ari" />
-    <option name="LAST_COMMIT_MESSAGE" value="asal ari" />
+    <MESSAGE value="videos added, it is ideal" />
+    <option name="LAST_COMMIT_MESSAGE" value="videos added, it is ideal" />
   </component>
 </project>
